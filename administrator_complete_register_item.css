@@ -1,0 +1,68 @@
+@charset "utf-8";
+
+:root {
+  --swiper-theme-color: rgba(0, 0, 0, .5);
+  --site-theme-color:  #FFFAF0;
+  --site-theme-font-family: "HiraMinPro-W6";
+}
+
+body {
+  margin: 0;
+  background: var(--site-theme-color);
+  user-select: none;
+}
+
+header {
+  background: #ddd;
+  width: 100%;
+  height: 100px;
+}
+
+header h1 {
+  margin: 0 10px;
+  line-height: 100px;
+}
+
+header .title {
+  font-family: cursive;
+  letter-spacing: 3px;
+}
+
+header span {
+  font-family: var(--site-theme-font-family);
+}
+
+span::before {
+  content: " -";
+}
+
+span::after {
+  content: "- ";
+}
+
+main {
+  text-align: center;
+}
+
+main h2 {
+  font-family: var(--site-theme-font-family);
+  margin: 30px 0;
+}
+
+main .btn {
+  width: 300px;
+  height: 30px;
+  background:  #4689FF;
+  font-family: var(--site-theme-font-family);
+  line-height: 30px;
+  margin: 0 auto;
+  border-radius: 5px;
+  cursor: pointer;
+
+  transition: background .3s;
+}
+
+main .btn:hover {
+  background: #5D99FF;
+}
+
