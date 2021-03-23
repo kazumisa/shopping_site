@@ -136,12 +136,12 @@ if(isset($_SESSION['category'])) {
           <th>カテゴリ</th>
           <td>
             <select name="category" id="catygory">
-              <option value="1">Tシャツ</option>
-              <option value="2">パンツ</option>
-              <option value="3">スカート</option>
-              <option value="4">スーツ</option>
-              <option value="5">デニム</option>
-              <option value="6">ポロシャツ</option>
+              <option value="Tシャツ">Tシャツ</option>
+              <option value="パンツ">パンツ</option>
+              <option value="スカート">スカート</option>
+              <option value="スーツ">スーツ</option>
+              <option value="デニム">デニム</option>
+              <option value="ポロシャツ">ポロシャツ</option>
             </select>
             <?php if(isset($err['catygory'])) :?>
               <p class="err_msg"><?php echo $err['catygory'] ;?></p>

@@ -30,7 +30,7 @@ Class Item extends Dbc
       $stmt->bindValue(':item_detail', $item_detail, PDO::PARAM_STR);
       $stmt->bindValue(':item_price', $item_price, PDO::PARAM_STR);
       $stmt->bindValue(':target', $target, PDO::PARAM_INT);
-      $stmt->bindValue(':category', $category, PDO::PARAM_INT);
+      $stmt->bindValue(':category', $category, PDO::PARAM_STR);
       $stmt->bindValue(':stock', $stock, PDO::PARAM_INT);
       $result = $stmt->execute();
       return $result;
@@ -72,6 +72,25 @@ Class Item extends Dbc
       $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
       return $itemData;
     } catch (PDOException $e) {
+      exit($e->getMessage());
+    }
+  }
+
+  /**
+   * 検索された商品をデータベースから取得
+   * @param string $item
+   * @return array $itemsData
+   */
+  public function getItem($item) {
+    try {
+      $pdo  = $this->dbConnect();
+      $sql  = "SELECT * FROM items WHERE category=:category";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':category', $item, PDO::PARAM_STR);
+      $stmt->execute();
+      $itemsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $itemsData;
+    } catch (PDOException $e){
       exit($e->getMessage());
     }
   }

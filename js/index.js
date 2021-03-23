@@ -139,15 +139,38 @@
       item_price.setAttribute('class', 'item_price');
       item_price.textContent = "¥" + Number(item_data.price).toLocaleString();
       detail.appendChild(item_price);  
+
+      // -----商品検索機能-----商品検索機能-----商品検索機能-----商品検索機能-----
+      // URLを取得
+      const url = new URL(window.location.href);
+      // URLSearchParamsオブジェクトを取得
+      const params = url.searchParams;
+      const search_word = params.get('search');
+      if(search_word !== null) {
+        // 見出し語を検索ワードに変更
+        const main = document.querySelector('main');
+        const show_word = main.firstElementChild;
+        show_word.innerHTML = search_word;
+        const search_item = [];
+        if(search_word.toLowerCase() === item_data.brand.toLowerCase()) {
+          search_item.push(item_data.id)
+
+          console.log(search_item);
+          
+        } else {
+          container.remove();
+          const message = document.createElement('p');
+          message.setAttribute('class', 'message');
+          message.textContent = "条件に一致する商品は見つかりませんでした。";
+          main.appendChild(message);
+        }
+      }
     });
 
     // ユーザが2回目以降にトップページを訪れた際の処理-----ユーザが2回目以降にトップページを訪れた際の処理
     
     // ローカルストレージのJSONデータを取得してオブジェクト型に変換
     const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
-    // const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
-    // const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
-    // const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
 
     if(json_url_obj) {
       const exist_keys = Object.keys(json_url_obj);
@@ -213,11 +236,6 @@
           localStorage.setItem('item_name', JSON.stringify(item_name_obj));
           localStorage.setItem('item_price', JSON.stringify(item_price_obj));
         } else { // お気に入り解除した際の処理
-          // //元のオブジェクトから要素を削除
-          // delete item_url_obj[heart_id];
-          // delete item_brand_obj[heart_id];
-          // delete item_name_obj[heart_id];
-          // delete item_price_obj[heart_id];
 
           // ローカルストレージのJSONデータを取得してオブジェクト型に変換
           const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
