@@ -89,6 +89,9 @@
     const response = await fetch('https://jsondata.okiba.me/v1/json/ej9jA210307121646');
     const items_data = await response.json();
 
+    // 検索した商品に合致する商品を格納
+    const search_item = [];
+
     items_data.forEach(item_data => {
       // DOMのcontainerクラスにdiv(class="box")要素を追加
       const container = document.querySelector('.container');
@@ -151,19 +154,16 @@
         const main = document.querySelector('main');
         const show_word = main.firstElementChild;
         show_word.innerHTML = search_word;
-        const search_item = [];
-        if(search_word.toLowerCase() === item_data.brand.toLowerCase()) {
-          search_item.push(item_data.id)
-
-          console.log(search_item);
-          
-        } else {
-          container.remove();
-          const message = document.createElement('p');
-          message.setAttribute('class', 'message');
-          message.textContent = "条件に一致する商品は見つかりませんでした。";
-          main.appendChild(message);
-        }
+        if(search_word.toLowerCase() === item_data.name.toLowerCase() || search_word.toLowerCase() === item_data.brand.toLowerCase() || search_word.toLowerCase() === item_data.category.toLowerCase()) {
+          search_item.push(item_data);
+        } 
+        // else {
+        //   container.remove();
+        //   const message = document.createElement('p');
+        //   message.setAttribute('class', 'message');
+        //   message.textContent = "条件に一致する商品は見つかりませんでした。";
+        //   main.appendChild(message);
+        // }
       }
     });
 
