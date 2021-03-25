@@ -287,7 +287,6 @@
   
             // ハートアイコンのidを取得
             const heart_id = hearts[i].getAttribute('id');
-            console.log(heart_id);
   
             if(favorite) { // お気に入り登録した際の処理
               // 要素をオブジェクトに追加
@@ -327,6 +326,7 @@
     // フォーム要素を取得
     const form = document.getElementById('form');
     form.addEventListener('submit', searchItem());
+    window.addEventListener('load', searchItem());
 
     // ユーザが2回目以降にトップページを訪れた際の処理-----ユーザが2回目以降にトップページを訪れた際の処理
     function addFavorite() {
