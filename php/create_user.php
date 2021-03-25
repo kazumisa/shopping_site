@@ -83,7 +83,7 @@ if(isset($_SESSION['tel'])) {
       </div>
       <!-- 商品検索機能 -->
       <div class="search">
-        <form action="./complete_create_user.php" method="POST">
+        <form action="./index.php" method="GET" id="form">
           <input type="text" name="serach" id="sp_search" placeholder="何かお探しですか？" autocomplete="off">
           <input type="submit" name="submit" id="sp_submit" value="&#xf002;" class="fas">
         </form>

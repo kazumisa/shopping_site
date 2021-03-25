@@ -36,7 +36,7 @@ if(isset($_SESSION['login_user'])) {
       </div>
       <!-- 商品検索機能 -->
       <div class="search">
-        <form action="">
+        <form action="./index.php" method="GET" id="form">
           <input type="text" name="serach" id="search" placeholder="何かお探しですか？" autocomplete="off">
           <input type="submit" name="submit" id="submit" value="&#xf002;" class="fas">
       </form>
