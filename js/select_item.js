@@ -108,7 +108,7 @@
   // -----お気に入り登録と解除に関する処理-----お気に入り登録と解除に関する処理-----
   window.addEventListener('DOMContentLoaded', async function() {
     // データのやり取り
-    const response = await fetch('https://jsondata.okiba.me/v1/json/FQ6dA210323092318');
+    const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
     const items_data = await response.json();
 
     // ローカルストレージのJSONデータを取得してオブジェクト型に変換
@@ -167,7 +167,7 @@
       const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
       shopping_cart_btn.addEventListener('click', async function() {
         // データのやり取り
-        const response = await fetch('https://jsondata.okiba.me/v1/json/FQ6dA210323092318');
+        const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
         const items_data = await response.json();
 
         // 商品の写真のURLを取得
@@ -196,7 +196,7 @@
       const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
       shopping_cart_btn.addEventListener('click', async function() {
         // データのやり取り
-        const response = await fetch('https://jsondata.okiba.me/v1/json/FQ6dA210323092318');
+        const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
         const items_data = await response.json();
 
         // 商品の写真のURLを取得

@@ -86,7 +86,7 @@
   const item_price_obj = {}; // 商品価格を格納するオブジェクト
   window.addEventListener('DOMContentLoaded', async function() {
     // データのやり取り
-    const response = await fetch('https://jsondata.okiba.me/v1/json/FQ6dA210323092318');
+    const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
     const items_data = await response.json();
 
     items_data.forEach(item_data => {
@@ -144,7 +144,7 @@
     // -----商品検索機能-----商品検索機能-----商品検索機能-----商品検索機能-----
     async function searchItem() {
        // データのやり取り
-      const response = await fetch('https://jsondata.okiba.me/v1/json/FQ6dA210323092318');
+      const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
       const items_data = await response.json();
 
       // 検索した商品に合致する商品を格納

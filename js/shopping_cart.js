@@ -78,7 +78,7 @@
 
   window.addEventListener('DOMContentLoaded', async function() {
     // データのやり取り
-    const response = await fetch('https://jsondata.okiba.me/v1/json/FQ6dA210323092318');
+    const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
     const items_data = await response.json();
 
     // ローカルストレージのJSONデータを取得してオブジェクト型に変換
