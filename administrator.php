@@ -120,10 +120,10 @@ if(isset($_SESSION['category'])) {
           <th>ターゲット</th>
           <td>
             <select name="target" id="target">
-              <option class="target" value="1">メンズ</option>
-              <option class="target" value="2">レディース</option>
-              <option class="target" value="3">ユニセックス</option>
-              <option class="target" value="4">キッズ</option>
+              <option class="target" value="メンズ">メンズ</option>
+              <option class="target" value="レディース">レディース</option>
+              <option class="target" value="ユニセックス">ユニセックス</option>
+              <option class="target" value="キッズ">キッズ</option>
             </select>
             <?php if(isset($err['target'])) :?>
               <p class="err_msg"><?php echo $err['target'] ;?></p>
@@ -135,7 +135,7 @@ if(isset($_SESSION['category'])) {
         <tr>
           <th>カテゴリ</th>
           <td>
-            <select name="category" id="catygory">
+            <select name="category" id="category">
               <option value="Tシャツ">Tシャツ</option>
               <option value="パンツ">パンツ</option>
               <option value="スカート">スカート</option>

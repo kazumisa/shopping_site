@@ -83,7 +83,7 @@ if(isset($_SESSION['login_user'])) {
         <div class="item_content">
           <p class="brabd_name"><?php echo $itemData['brand_name'] ;?></p>
           <p class="item_name"><?php echo $itemData['item_name']  ;?></p>
-          <p class="item_price"><?php echo "¥".$itemData['item_price'] ;?></p>
+          <p class="item_price"><?php echo "¥".number_format($itemData['item_price']) ;?></p>
         </div>
 
         <!-- お気に入り登録・解除 -->

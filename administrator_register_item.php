@@ -31,8 +31,8 @@ $save_path = $upload_dir.$save_file_name;
 $brand_name = filter_input(INPUT_POST, 'brand_name', FILTER_SANITIZE_SPECIAL_CHARS);
 $item_name  = filter_input(INPUT_POST, 'item_name', FILTER_SANITIZE_SPECIAL_CHARS);
 $item_detail = filter_input(INPUT_POST, 'item_detail', FILTER_DEFAULT );
-$stock = filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_SPECIAL_CHARS);
-$item_price = number_format(filter_input(INPUT_POST, 'item_price', FILTER_SANITIZE_SPECIAL_CHARS));
+$stock = (int)filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_SPECIAL_CHARS);
+$item_price = (int)filter_input(INPUT_POST, 'item_price', FILTER_SANITIZE_SPECIAL_CHARS);
 $target = filter_input(INPUT_POST, 'target', FILTER_SANITIZE_SPECIAL_CHARS);
 $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -98,7 +98,7 @@ if(count($err) === 0) {
   if(is_uploaded_file($file_tmp_path)) {
     if(move_uploaded_file($file_tmp_path, $save_path)) {
       // 商品登録処理
-      $result = $items->registerItem($file_name, $save_path, $brand_name, $item_name, $item_detail, $item_price, $stock, $target, $category); 
+      $result = $items->registerItem($file_name, $save_path, $brand_name, $item_name, $item_detail, $item_price, $target, $category, $stock); 
     } else {
       $err['file'] = "ファイルがアップロードできませんでした。";
       $_SESSION['err'] = $err;

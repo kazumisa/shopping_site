@@ -10,9 +10,9 @@ Class Item extends Dbc
    * @param string $brand_name
    * @param string $item_name
    * @param string $item_detail
-   * @param string $item_price
-   * @param int    $target
-   * @param int    $category
+   * @param int    $item_price
+   * @param string $target
+   * @param string $category
    * @param int    $stock
    * @param bool   $result
    */
@@ -28,8 +28,8 @@ Class Item extends Dbc
       $stmt->bindValue(':brand_name', $brand_name, PDO::PARAM_STR);
       $stmt->bindValue(':item_name', $item_name, PDO::PARAM_STR);
       $stmt->bindValue(':item_detail', $item_detail, PDO::PARAM_STR);
-      $stmt->bindValue(':item_price', $item_price, PDO::PARAM_STR);
-      $stmt->bindValue(':target', $target, PDO::PARAM_INT);
+      $stmt->bindValue(':item_price', $item_price, PDO::PARAM_INT);
+      $stmt->bindValue(':target', $target, PDO::PARAM_STR);
       $stmt->bindValue(':category', $category, PDO::PARAM_STR);
       $stmt->bindValue(':stock', $stock, PDO::PARAM_INT);
       $result = $stmt->execute();
