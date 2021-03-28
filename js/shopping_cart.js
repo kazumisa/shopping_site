@@ -76,22 +76,20 @@
     })
   }
 
-  window.addEventListener('DOMContentLoaded', async function() {
-    // データのやり取り
-    const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
-    const items_data = await response.json();
-
+  window.addEventListener('DOMContentLoaded', function() {
     // ローカルストレージのJSONデータを取得してオブジェクト型に変換
-    const json_cart_obj = JSON.parse(localStorage.getItem('cart'));
+    const json_cart_url = JSON.parse(localStorage.getItem('cart_item_url'));
+    const json_cart_brand = JSON.parse(localStorage.getItem('cart_item_brand'));
+    const json_cart_name = JSON.parse(localStorage.getItem('cart_item_name'));
+    const json_cart_price = JSON.parse(localStorage.getItem('cart_item_price'));
 
-    if(json_cart_obj !== null) {
+    if(json_cart_url !== null) {
       // オブジェクトのキーを配列として取得
-      const keys = Object.keys(json_cart_obj);
-      
+      const keys = Object.keys(json_cart_url);
       keys.forEach(key => {
         //DOMからcontainerクラスを取得
         const container = document.querySelector('.container');
-  
+
         // DOMにcontainerの子ノードとしてdiv(class=detail)を追加
         const detail = document.createElement('div');
         detail.setAttribute('class', 'detail');
@@ -101,40 +99,40 @@
         const a = document.createElement('a');
         a.setAttribute('href', `../php/select_item.php?id=${key}`);
         detail.appendChild(a);
-  
+
         // DOMにaタグの子ノードとしてimgタグを追加
         const img = document.createElement('img');
-        img.setAttribute('src', `${json_cart_obj[key]}`);
+        img.setAttribute('src', json_cart_url[key]);
         a.appendChild(img);
-  
+
         // DOMに商品ブランド・商品名・商品価格をまとめるdiv(class=total_detail)を追加
         const total_detail = document.createElement('div');
         total_detail.setAttribute('class', 'total_detail');
+
         // 商品ブランド
         const item_brand = document.createElement('p');
         item_brand.setAttribute('class', 'item_brand');
-        item_brand.textContent = `${items_data[key - 1].brand}`;
+        item_brand.textContent = json_cart_brand[key];
         const brandName = item_brand.textContent.length > 20 ? item_brand.textContent.slice(0, 20) + '...' : item_brand.textContent;
         item_brand.innerHTML = brandName;
         total_detail.appendChild(item_brand);
-  
+
         // 商品名
         const item_name = document.createElement('p');
         item_name.setAttribute('class', 'item_name');
-        item_name.textContent = `${items_data[key - 1].name}`;
+        item_name.textContent = json_cart_name[key];
         const itemName = item_name.textContent.length > 20 ? item_name.textContent.slice(0, 20) + '...' : item_name.textContent;
         item_name.innerHTML = itemName;
         total_detail.appendChild(item_name);
-  
+
         // 商品価格
         const item_price = document.createElement('p');
-        const price = items_data[key - 1].price
-        item_price.textContent = "¥" + Number(price).toLocaleString();
+        item_price.textContent = json_cart_price[key];
         item_price.setAttribute('class', 'item_price');
         total_detail.appendChild(item_price);
-  
+
         detail.appendChild(total_detail);
-  
+
         // 削除ボタン追加
         const div_dele = document.createElement('div');
         const p_dele = document.createElement('p');
@@ -142,8 +140,7 @@
         div_dele.setAttribute('class', 'delete');
         div_dele.appendChild(p_dele);
         total_detail.appendChild(div_dele);
-      });
-      
+      })
 
       // -----カート内の商品の数をカウントする機能を作成-----カート内の商品の数をカウントする機能を作成-----
       if(keys.length === 0) {
@@ -174,46 +171,54 @@
         go_procedure.textContent = "注文手続きへ";
         go_procedure.setAttribute('class', 'procedure');
         go_register.appendChild(go_procedure);
+
+        // 削除ボタンを押した際の商品削除機能
+        const dele = document.querySelectorAll('.delete');
+        dele.forEach(remove => {
+          remove.addEventListener('click', function() {
+            const parent = remove.parentElement;
+            const next_parent = parent.parentElement;
+            const a = next_parent.firstChild;
+            const img = a.firstChild;
+            const img_src = img.getAttribute('src');
+
+            keys.forEach(key => {
+              if(json_cart_url[key] === img_src) {
+                next_parent.remove();
+
+                delete json_cart_url[key];
+                delete json_cart_brand[key];
+                delete json_cart_name[key];
+                delete json_cart_price[key];
+
+                localStorage.setItem('cart_item_url', JSON.stringify(json_cart_url));
+                localStorage.setItem('cart_item_brand', JSON.stringify(json_cart_brand));
+                localStorage.setItem('cart_item_name', JSON.stringify(json_cart_name));
+                localStorage.setItem('cart_item_price', JSON.stringify(json_cart_price));
+
+                // オブジェクトのキーを配列として取得
+                const new_keys = Object.keys(json_cart_url);
+                if(new_keys.length === 0) {
+                  const p = document.querySelector('.total');
+                  p.innerHTML = '現在、カートに商品は存在しません。';
+                  const go_register = document.querySelector('.go_register');
+                  go_register.classList.add('hide');
+                } else {
+                  const allPrice = document.querySelectorAll('.item_price');
+                  let total = 0;
+                  for(let i = 0; i < allPrice.length; i++) {
+                    const eachPrice = allPrice[i].textContent.replace('¥', ' ');
+                    const int_price = parseInt(eachPrice.replace(',', ''), 10);
+                    total += int_price;
+                  }
+                  const total_price = document.querySelector('.total');
+                  total_price.innerHTML = `小計 (${new_keys.length}個の商品) (税込) : ¥${total.toLocaleString()}`;
+                }   
+              }
+            }) 
+          })    
+        }) 
       }
-      
-      // 削除ボタンを押した際の商品削除機能
-      const dele = document.querySelectorAll('.delete');
-      dele.forEach(remove => {
-        remove.addEventListener('click', function() {
-          const parent = remove.parentElement;
-          const next_parent = parent.parentElement;
-          const a = next_parent.firstChild;
-          const img = a.firstChild;
-          const img_src = img.getAttribute('src');
-
-          keys.forEach(key => {
-            if(json_cart_obj[key] === img_src) {
-              next_parent.remove();
-              delete json_cart_obj[key];
-              localStorage.setItem('cart', JSON.stringify(json_cart_obj));
-
-              // オブジェクトのキーを配列として取得
-              const new_keys = Object.keys(json_cart_obj);
-              if(new_keys.length === 0) {
-                const p = document.querySelector('.total');
-                p.innerHTML = '現在、カートに商品は存在しません。';
-                const go_register = document.querySelector('.go_register');
-                go_register.classList.add('hide');
-              } else {
-                const allPrice = document.querySelectorAll('.item_price');
-                let total = 0;
-                for(let i = 0; i < allPrice.length; i++) {
-                  const eachPrice = allPrice[i].textContent.replace('¥', ' ');
-                  const int_price = parseInt(eachPrice.replace(',', ''), 10);
-                  total += int_price;
-                }
-                const total_price = document.querySelector('.total');
-                total_price.innerHTML = `小計 (${new_keys.length}個の商品) (税込) : ¥${total.toLocaleString()}`;
-              }   
-            }
-          }) 
-        })    
-      }) 
     } else {
       const cart_count = document.querySelector('.cart_count');
       const p = document.createElement('p');
