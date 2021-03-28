@@ -84,9 +84,11 @@ Class Item extends Dbc
   public function getItem($item) {
     try {
       $pdo  = $this->dbConnect();
-      $sql  = "SELECT * FROM items WHERE category=:category";
+      $sql  = "SELECT * FROM items WHERE category=:category OR brand_name=:brand_name OR item_name=:item_name";
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':category', $item, PDO::PARAM_STR);
+      $stmt->bindValue(':brand_name', $item, PDO::PARAM_STR);
+      $stmt->bindValue(':item_name', $item, PDO::PARAM_STR);
       $stmt->execute();
       $itemsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
       return $itemsData;

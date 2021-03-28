@@ -78,349 +78,19 @@
     })
   }
 
+  // -----商品検索機能-----商品検索機能-----商品検索機能-----商品検索機能-----
+  // URLを取得
+  const url = new URL(window.location.href);
+  // URLSearchParamsオブジェクトを取得
+  const params = url.searchParams;
+  const search_word = params.get('search'); // 検索した商品を取得
 
-  // -----DOMに要素を追加する処理-----DOMに要素を追加する処理-----DOMに要素を追加する処理-----DOMに要素を追加する処理-----
-  const item_url_obj = {}; // 写真のURLを格納するオブジェクト
-  const item_brand_obj = {}; // ブランド名を格納するオブジェクト
-  const item_name_obj = {}; // 商品名を格納するオブジェクト
-  const item_price_obj = {}; // 商品価格を格納するオブジェクト
-  window.addEventListener('DOMContentLoaded', async function() {
-    // データのやり取り
-    const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
-    const items_data = await response.json();
-
-    items_data.forEach(item_data => {
-      // DOMのcontainerクラスにdiv(class="box")要素を追加
-      const container = document.querySelector('.container');
-      const box = document.createElement('div');
-      box.setAttribute('class', 'box');
-      container.appendChild(box);
-
-      // DOMのboxクラスにa要素を追加
-      const a = document.createElement('a');
-      a.setAttribute('href', `../php/select_item.php?id=${item_data.id}`);
-      box.appendChild(a);
-
-      // DOMのa要素にimg要素を追加
-      const img = document.createElement('img');
-      img.setAttribute('src', item_data.item);
-      a.appendChild(img);
-
-      // DOMのboxクラスにspan要素(ハートアイコン)を追加
-      const heart = document.createElement('span');
-      heart.setAttribute('class', 'material-icons img_favorite heart');
-      heart.setAttribute('id', item_data.id);
-      heart.textContent = 'favorite'
-      box.appendChild(heart);
-
-      // DOMのboxクラスに詳細を表示するdiv(class="detail")要素を追加
-      const detail = document.createElement('div');
-      detail.setAttribute('class', 'detail');
-      box.appendChild(detail)
-
-      // DOMのdetailクラスにブランド名を表示するp要素を設置
-      const brand_name = document.createElement('p');
-      brand_name.setAttribute('class', 'brand_name');
-      brand_name.textContent = item_data.brand;
-      const brandName = brand_name.textContent.length > 20 ? brand_name.textContent.slice(0, 20) + '...' : brand_name.textContent;
-      brand_name.innerHTML = brandName;
-      detail.appendChild(brand_name);
-
-      // DOMのdetailクラスに商品名を表示するp要素を設置
-      const item_name = document.createElement('p');
-      item_name.setAttribute('class', 'item_name');
-      item_name.textContent = item_data.name;
-      const itemName = item_name.textContent.length > 20 ? item_name.textContent.slice(0, 20) + '...' : item_name.textContent;
-      item_name.innerHTML = itemName;
-      detail.appendChild(item_name);
-
-      // DOMのdetailクラスに商品価格を表示するp要素を設置
-      const item_price = document.createElement('p');
-      item_price.setAttribute('class', 'item_price');
-      item_price.textContent = "¥" + Number(item_data.price).toLocaleString();
-      detail.appendChild(item_price);  
-    });
-
-    // -----商品検索機能-----商品検索機能-----商品検索機能-----商品検索機能-----
-    async function searchItem() {
-       // データのやり取り
-      const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
-      const items_data = await response.json();
-
-      // 検索した商品に合致する商品を格納
-      const search_items = [];
-      
-      // URLを取得
-      const url = new URL(window.location.href);
-      // URLSearchParamsオブジェクトを取得
-      const params = url.searchParams;
-      const search_word = params.get('search');
-
-      items_data.forEach(item_data => {
-        // 商品を検索した際の処理
-        if(search_word !== null) { 
-          // 見出し語を検索ワードに変更
-          const main = document.querySelector('main');
-          const show_word = main.firstElementChild;
-          show_word.innerHTML = search_word;
-
-          // 商品の名前が一致した時の処理
-          if(search_word.toLowerCase() === item_data.name.toLowerCase()) {
-            search_items.push(item_data);
-          } 
-    
-          // 商品のブランド名が一致した時の処理
-          if(search_word.toLowerCase() === item_data.brand.toLowerCase()) {
-            search_items.push(item_data);
-          } 
-  
-          // 商品のカテゴリが一致した時の処理
-          if(search_word.toLowerCase() === item_data.category.toLowerCase()) {
-            search_items.push(item_data);
-          } 
-        } 
-      })
-
-      // 商品が検索された "かつ" 該当商品が存在しない時の処理
-      if(search_items.length === 0 && search_word !== null) {
-        const main = document.querySelector('main');
-        const container = document.querySelector('.container');
-      
-        // 商品一覧を全て削除
-        container.remove();
-
-        // メッセージを表示するためのp(class=message)を作成しDOMのmain要素に追加
-        const message = document.createElement('p');
-        message.setAttribute('class', 'message');
-        message.textContent = "条件に一致する商品は見つかりませんでした。";
-        main.appendChild(message);
-      } else if (search_items.length !== 0) {
-        // 該当商品が存在した時の処理
-        const main = document.querySelector('main');
-        const container = document.querySelector('.container');
-      
-        // 一度、商品一覧を全て削除
-        container.remove();
-
-        // 再度、商品一覧を作成しDOMのmain要素に追加
-        const new_container = document.createElement('div');
-        new_container.setAttribute('class', 'container');
-        main.appendChild(new_container);
-
-        search_items.forEach(search_item => { // 該当商品を表示する機能
-          // DOMのcontainerクラスにdiv(class="box")要素を追加
-          const box = document.createElement('div');
-          box.setAttribute('class', 'box');
-          new_container.appendChild(box);
-
-          // DOMのboxクラスにa要素を追加
-          const a = document.createElement('a');
-          a.setAttribute('href', `../php/select_item.php?id=${search_item.id}`);
-          box.appendChild(a);
-
-          // DOMのa要素にimg要素を追加
-          const img = document.createElement('img');
-          img.setAttribute('src', search_item.item);
-          a.appendChild(img);
-
-          // DOMのboxクラスにspan要素(ハートアイコン)を追加
-          const heart = document.createElement('span');
-          heart.setAttribute('class', 'material-icons img_favorite heart');
-          heart.setAttribute('id', search_item.id);
-          heart.textContent = 'favorite'
-          box.appendChild(heart);
-
-          // DOMのboxクラスに詳細を表示するdiv(class="detail")要素を追加
-          const detail = document.createElement('div');
-          detail.setAttribute('class', 'detail');
-          box.appendChild(detail);
-
-          // DOMのdetailクラスにブランド名を表示するp要素を設置
-          const brand_name = document.createElement('p');
-          brand_name.setAttribute('class', 'brand_name');
-          brand_name.textContent = search_item.brand;
-          const brandName = brand_name.textContent.length > 20 ? brand_name.textContent.slice(0, 20) + '...' : brand_name.textContent;
-          brand_name.innerHTML = brandName;
-          detail.appendChild(brand_name);
-
-          // DOMのdetailクラスに商品名を表示するp要素を設置
-          const item_name = document.createElement('p');
-          item_name.setAttribute('class', 'item_name');
-          item_name.textContent = search_item.name;
-          const itemName = item_name.textContent.length > 20 ? item_name.textContent.slice(0, 20) + '...' : item_name.textContent;
-          item_name.innerHTML = itemName;
-          detail.appendChild(item_name);
-
-          // DOMのdetailクラスに商品価格を表示するp要素を設置
-          const item_price = document.createElement('p');
-          item_price.setAttribute('class', 'item_price');
-          item_price.textContent = "¥" + Number(search_item.price).toLocaleString();
-          detail.appendChild(item_price);  
-        })
-
-        // ローカルストレージのJSONデータを取得してオブジェクト型に変換
-        const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
-        if(json_url_obj) {
-          const favorite_keys = Object.keys(json_url_obj);
-
-          // ページを切り替えてお気に入り登録された商品が存在する時の処理
-          if(favorite_keys !== null) { 
-            favorite_keys.forEach(favorite_key => {
-              const favorite_id = document.getElementById(favorite_key);
-              if(favorite_id !== null) {
-                favorite_id.classList.add('changeColor');
-              }
-            })
-          } 
-        } 
-        const hearts = document.querySelectorAll('.heart'); // ハートアイコンを取得する
-        for(let i = 0; i < hearts.length; i++) {
-          hearts[i].addEventListener('click', function() {
-            const favorite = hearts[i].classList.toggle('changeColor');
-            const a = hearts[i].previousElementSibling;
-            const img = a.firstElementChild;
-            const img_src = img.getAttribute('src'); // 写真のURLを取得
-            const detail = hearts[i].nextElementSibling;
-            const brand_name = detail.children[0]; // ブランド名の要素を取得
-            const item_name = detail.children[1]; // 商品名の要素を取得
-            const item_price = detail.children[2]; // 商品価格の要素を取得
-  
-            // ハートアイコンのidを取得
-            const heart_id = hearts[i].getAttribute('id');
-  
-            if(favorite) { // お気に入り登録した際の処理
-              // 要素をオブジェクトに追加
-              item_url_obj[heart_id] = img_src;
-              item_brand_obj[heart_id] = brand_name.textContent;
-              item_name_obj[heart_id] = item_name.textContent;
-              item_price_obj[heart_id] = item_price.textContent;
-    
-              // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-              localStorage.setItem('item_url', JSON.stringify(item_url_obj));
-              localStorage.setItem('item_brand', JSON.stringify(item_brand_obj));
-              localStorage.setItem('item_name', JSON.stringify(item_name_obj));
-              localStorage.setItem('item_price', JSON.stringify(item_price_obj));
-            } else {
-              // ローカルストレージのJSONデータを取得してオブジェクト型に変換
-              const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
-              const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
-              const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
-              const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
-            
-              // オブジェクトから要素を削除
-              delete json_url_obj[heart_id];
-              delete json_brand_obj[heart_id];
-              delete json_name_obj[heart_id];
-              delete json_price_obj[heart_id];
-    
-              // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-              localStorage.setItem('item_url', JSON.stringify(json_url_obj));
-              localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
-              localStorage.setItem('item_name', JSON.stringify(json_name_obj));
-              localStorage.setItem('item_price', JSON.stringify(json_price_obj));
-            }
-          })
-        }
-      }     
-    }
-    // フォーム要素を取得
-    const form = document.getElementById('form');
-    form.addEventListener('submit', searchItem());
-    window.addEventListener('load', searchItem());
-
-    // ユーザが2回目以降にトップページを訪れた際の処理-----ユーザが2回目以降にトップページを訪れた際の処理
-    function addFavorite() {
-      // ローカルストレージのJSONデータを取得してオブジェクト型に変換
-      const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
-      if(json_url_obj) {
-        const exist_keys = Object.keys(json_url_obj);
-        if(exist_keys !== null) {
-          exist_keys.forEach(exist_key => {
-            const already_favorite = document.querySelectorAll('.heart');
-            already_favorite[exist_key - 1].classList.add('changeColor');
-  
-            const a = already_favorite[exist_key - 1].previousElementSibling;
-            const img = a.firstElementChild;
-            const img_src = img.getAttribute('src'); // 商品の写真を取得
-            const detail = already_favorite[exist_key - 1].nextElementSibling;
-            const brand_name = detail.children[0]; // ブランド名の要素を取得
-            const item_name = detail.children[1]; // 商品名の要素を取得
-            const item_price = detail.children[2]; // 商品価格の要素を取得
-  
-            // ハートアイコンのidを取得
-            const heart_id = already_favorite[exist_key - 1].getAttribute('id');
-  
-            // 要素をオブジェクトに追加
-            item_url_obj[heart_id] = img_src;
-            item_brand_obj[heart_id] = brand_name.textContent;
-            item_name_obj[heart_id] = item_name.textContent;
-            item_price_obj[heart_id] = item_price.textContent;
-  
-            // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-            localStorage.setItem('item_url', JSON.stringify(item_url_obj));
-            localStorage.setItem('item_brand', JSON.stringify(item_brand_obj));
-            localStorage.setItem('item_name', JSON.stringify(item_name_obj));
-            localStorage.setItem('item_price', JSON.stringify(item_price_obj));
-          })
-        } 
-      } 
-    }
-    addFavorite()
-
-    // -----ユーザが最初にトップページを訪れた際の処理-----ユーザが最初にトップページを訪れた際の処理-----ユーザが最初にトップページを訪れた際の処理-----
-    const hearts = document.querySelectorAll('.heart');
-    const keys = Object.keys(items_data);
-    for(let i = 0; i < keys.length; i++) {
-      hearts[i].addEventListener('click', function() {
-        const favorite = hearts[i].classList.toggle('changeColor');
-        const a = hearts[i].previousElementSibling;
-        const img = a.firstElementChild;
-        const img_src = img.getAttribute('src'); // 写真のURLを取得
-        const detail = hearts[i].nextElementSibling;
-        const brand_name = detail.children[0]; // ブランド名の要素を取得
-        const item_name = detail.children[1]; // 商品名の要素を取得
-        const item_price = detail.children[2]; // 商品価格の要素を取得
-
-        // ハートアイコンのidを取得
-        const heart_id = hearts[i].getAttribute('id');
-
-        if(favorite) {
-          // お気に入り登録した際の処理-----お気に入り登録した際の処理-----お気に入り登録した際の処理
-
-          // 要素をオブジェクトに追加
-          item_url_obj[heart_id] = img_src;
-          item_brand_obj[heart_id] = brand_name.textContent;
-          item_name_obj[heart_id] = item_name.textContent;
-          item_price_obj[heart_id] = item_price.textContent;
-
-          // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-          localStorage.setItem('item_url', JSON.stringify(item_url_obj));
-          localStorage.setItem('item_brand', JSON.stringify(item_brand_obj));
-          localStorage.setItem('item_name', JSON.stringify(item_name_obj));
-          localStorage.setItem('item_price', JSON.stringify(item_price_obj));
-        } else { // お気に入り解除した際の処理
-
-          // ローカルストレージのJSONデータを取得してオブジェクト型に変換
-          const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
-          const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
-          const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
-          const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
-        
-          // オブジェクトから要素を削除
-          delete json_url_obj[heart_id];
-          delete json_brand_obj[heart_id];
-          delete json_name_obj[heart_id];
-          delete json_price_obj[heart_id];
-
-          // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-          localStorage.setItem('item_url', JSON.stringify(json_url_obj));
-          localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
-          localStorage.setItem('item_name', JSON.stringify(json_name_obj));
-          localStorage.setItem('item_price', JSON.stringify(json_price_obj));
-        }
-      })
-    }
-  })
+  if(search_word !== null && search_word !== "") {
+    const titles = document.querySelectorAll('.title');
+    titles.forEach(title => {
+      title.innerHTML = search_word;
+    })
+  } 
   
   // -----スライドショーに関する処理-----スライドショーに関する処理-----スライドショーに関する処理-----
   const swiper = new Swiper('.swiper-container', {
@@ -467,5 +137,129 @@
         clicked_target.classList.add('addColor');
       }
     })
+  }) 
+
+  const item_url_obj = {}; // 写真のURLを格納するオブジェクト
+  const item_brand_obj = {}; // ブランド名を格納するオブジェクト
+  const item_name_obj = {}; // 商品名を格納するオブジェクト
+  const item_price_obj = {}; // 商品価格を格納するオブジェクト
+  // -----お気に入り登録に関する処理(SPサイト・PCサイト共通)-----お気に入り登録に関する処理(SPサイト・PCサイト共通)-----
+  window.addEventListener('DOMContentLoaded', function() {
+    // ローカルストレージのJSONデータを取得してオブジェクト型に変換
+    const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
+    const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
+    const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
+    const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
+
+    // 全てのハートアイコン要素を取得
+    const hearts = document.querySelectorAll('.container .img_favorite');
+
+    if(json_url_obj !== null) {
+      const keys = Object.keys(json_url_obj);
+      if(keys.length !== 0) {
+        keys.forEach(key => {
+          const json_src = json_url_obj[key];
+          const imgs = document.querySelectorAll('.container img');
+          imgs.forEach(img => {
+            const img_src = img.getAttribute('src');
+            if(json_src === img_src) {
+              const a = img.parentElement;
+              const span = a.nextElementSibling;
+              span.classList.add('changeColor'); // お気に入り登録
+              const detail = span.nextElementSibling;
+              const brand_name = detail.children[0]; // ブランド名の要素を取得
+              const item_name = detail.children[1]; // 商品名の要素を取得
+              const item_price = detail.children[2]; // 商品価格の要素を取得
+              const heart_id = span.getAttribute('id'); // ハートのIDを取得
+
+              // 要素をオブジェクトに追加
+              json_url_obj[heart_id] = img_src;
+              json_brand_obj[heart_id] = brand_name.textContent;
+              json_name_obj[heart_id] = item_name.textContent;
+              json_price_obj[heart_id] = item_price.textContent; 
+
+              // 取得したオブジェクトをローカルストレージにJSON形式で保存する
+              localStorage.setItem('item_url', JSON.stringify(json_url_obj));
+              localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
+              localStorage.setItem('item_name', JSON.stringify(json_name_obj));
+              localStorage.setItem('item_price', JSON.stringify(json_price_obj));
+            }
+          })
+        })
+      }
+    }
+    for(let i = 0; i < hearts.length; i++) {
+      hearts[i].addEventListener('click', function() {
+        const favorite = hearts[i].classList.toggle('changeColor');
+        const a = hearts[i].previousElementSibling;
+        const img = a.firstElementChild;
+        const img_src = img.getAttribute('src'); // 写真のURLを取得
+        const detail = hearts[i].nextElementSibling;
+        const brand_name = detail.children[0]; // ブランド名の要素を取得
+        const item_name = detail.children[1]; // 商品名の要素を取得
+        const item_price = detail.children[2]; // 商品価格の要素を取得
+        const heart_id = hearts[i].getAttribute('id'); // ハートのIDを取得
+
+        // お気に入り登録した際の処理(関数)
+        function addFavorite() { 
+          // 要素をオブジェクトに追加
+          if(json_url_obj === null) {
+            item_url_obj[heart_id] = img_src;
+            item_brand_obj[heart_id] = brand_name.textContent;
+            item_name_obj[heart_id] = item_name.textContent;
+            item_price_obj[heart_id] = item_price.textContent;  
+            
+            //取得したオブジェクトをローカルストレージにJSON形式で保存する
+            localStorage.setItem('item_url', JSON.stringify(item_url_obj));
+            localStorage.setItem('item_brand', JSON.stringify(item_brand_obj));
+            localStorage.setItem('item_name', JSON.stringify(item_name_obj));
+            localStorage.setItem('item_price', JSON.stringify(item_price_obj));
+          } else {
+            // ローカルストレージのJSONデータを取得してオブジェクト型に変換
+            const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
+            const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
+            const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
+            const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
+
+            json_url_obj[heart_id] = img_src;
+            json_brand_obj[heart_id] = brand_name.textContent;
+            json_name_obj[heart_id] = item_name.textContent;
+            json_price_obj[heart_id] = item_price.textContent;  
+          
+            //取得したオブジェクトをローカルストレージにJSON形式で保存する
+            localStorage.setItem('item_url', JSON.stringify(json_url_obj));
+            localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
+            localStorage.setItem('item_name', JSON.stringify(json_name_obj));
+            localStorage.setItem('item_price', JSON.stringify(json_price_obj));
+          }
+        }
+        // お気に入り解除した際の処理(関数)
+        function deleteFavorite() {
+
+          // ローカルストレージのJSONデータを取得してオブジェクト型に変換
+          const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
+          const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
+          const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
+          const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
+        
+          // オブジェクトから要素を削除
+          delete json_url_obj[heart_id];
+          delete json_brand_obj[heart_id];
+          delete json_name_obj[heart_id];
+          delete json_price_obj[heart_id];
+  
+          // 取得したオブジェクトをローカルストレージにJSON形式で保存する
+          localStorage.setItem('item_url', JSON.stringify(json_url_obj));
+          localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
+          localStorage.setItem('item_name', JSON.stringify(json_name_obj));
+          localStorage.setItem('item_price', JSON.stringify(json_price_obj)); 
+        }
+          if(favorite) {
+            addFavorite();
+          } else {
+            deleteFavorite();
+          }
+      })
+    }  
   }) 
 }

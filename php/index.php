@@ -2,14 +2,21 @@
 session_start();
 require_once('../php/dbc_item.php');
 
-// インスタンス化
-$Item = new Item();
-
-$items = $Item->getItemData();
-
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
   $login_user = $_SESSION['login_user'];
+}
+
+// インスタンス化
+$Item = new Item();
+
+// 商品検索機能
+$search_word = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL_CHARS);
+$search_items = $Item->getItem($search_word);
+
+if(!$search_word) {
+  // 商品一覧を最新の商品から30件
+  $items = $Item->getItemData();
 }
 
 ?>
@@ -104,10 +111,45 @@ if(isset($_SESSION['login_user'])) {
 
     <!-- 商品画像掲載処理 -->
     <main>
-      <h3>新着アイテム</h3>
-      <div class="container">
+      <h3 class="title">新着アイテム</h3>
+        <?php if(!$search_word) :?> 
+          <div class="container">
+            <?php foreach($items as $item) :?>
+              <div class="box">
+                <a href="./select_item.php?id=<?php echo $item['id'] ;?>">
+                  <img src=".<?php echo $item['file_path'];?>" alt="商品の写真">
+                </a>
+                <span class="material-icons img_favorite" id="<?php echo $item['id'] ;?>">favorite</span>
+                <div class="detail">
+                  <p class="brand_name"><?php echo Item::h(Item::limited($item['brand_name'])) ;?></p>
+                  <p class="item_name"><?php echo Item::h(Item::limited($item['item_name'])) ;?></p>
+                  <p class="item_price"><?php echo Item::h("¥".number_format($item['item_price'])) ;?></p>
+                </div>
+              </div>
+            <?php endforeach ;?>
+          </div>
+        <?php else :?>
+          <?php if(!$search_items) :?>
+            <p class="message">条件に一致する商品は見つかりませんでした。</p>
+          <?php else :?>
+            <div class="container">
+              <?php foreach($search_items as $search_item) :?>
+                <div class="box">
+                  <a href="./select_item.php?id=<?php echo $search_item['id'] ;?>">
+                    <img src=".<?php echo $search_item['file_path'];?>" alt="商品の写真">
+                  </a>
+                  <span class="material-icons img_favorite" id="<?php echo $search_item['id'] ;?>">favorite</span>
+                  <div class="detail">
+                    <p class="brand_name"><?php echo Item::h(Item::limited($search_item['brand_name'])) ;?></p>
+                    <p class="item_name"><?php echo Item::h(Item::limited($search_item['item_name'])) ;?></p>
+                    <p class="item_price"><?php echo Item::h("¥".number_format($search_item['item_price'])) ;?></p>
+                  </div>
+                </div>
+              <?php endforeach ;?>
+            </div>
+          <?php endif ;?>
+        <?php endif ;?>
       
-      </div>
     </main>
       
 
@@ -136,7 +178,7 @@ if(isset($_SESSION['login_user'])) {
       </div>
       <!-- 商品検索機能 -->
       <div class="search">
-        <form action="">
+        <form action="./index.php" method="GET">
           <input type="text" name="search" id="search" placeholder="何かお探しですか？" autocomplete="off">
           <input type="submit" name="submit" id="submit" value="&#xf002;" class="fas">
         </form>
@@ -173,6 +215,51 @@ if(isset($_SESSION['login_user'])) {
         </ul>
       </div>
     </header>
+    <main>
+      <h1 class="title">新着アイテム</h1>
+        <?php if(!$search_word) :?> 
+          <div class="container">
+            <?php foreach($items as $item) :?>
+              <div class="box">
+                <a href="./select_item.php?id=<?php echo $item['id'] ;?>">
+                  <img src=".<?php echo $item['file_path'];?>" alt="商品の写真">
+                </a>
+                <span class="material-icons img_favorite" id="<?php echo $item['id'] ;?>">favorite</span>
+                <div class="detail">
+                  <p class="brand_name"><?php echo Item::h(Item::limited($item['brand_name'])) ;?></p>
+                  <p class="item_name"><?php echo Item::h(Item::limited($item['item_name'])) ;?></p>
+                  <p class="item_price"><?php echo Item::h("¥".number_format($item['item_price'])) ;?></p>
+                </div>
+              </div>
+            <?php endforeach ;?>
+          </div>
+        <?php elseif($search_word) :?>
+          <?php if(!$search_items) :?>
+            <p class="message">条件に一致する商品は見つかりませんでした。</p>
+          <?php else :?>
+            <div class="container">
+              <?php foreach($search_items as $search_item) :?>
+                <div class="box">
+                  <a href="./select_item.php?id=<?php echo $search_item['id'] ;?>">
+                    <img src=".<?php echo $search_item['file_path'];?>" alt="商品の写真">
+                  </a>
+                  <span class="material-icons img_favorite" id="<?php echo $search_item['id'] ;?>">favorite</span>
+                  <div class="detail">
+                    <p class="brand_name"><?php echo Item::h(Item::limited($search_item['brand_name'])) ;?></p>
+                    <p class="item_name"><?php echo Item::h(Item::limited($search_item['item_name'])) ;?></p>
+                    <p class="item_price"><?php echo Item::h("¥".number_format($search_item['item_price'])) ;?></p>
+                  </div>
+                </div>
+              <?php endforeach ;?>
+            </div>
+          <?php endif ;?>
+        <?php endif ;?>
+    </main>
+
+    <footer>
+      <a href="">プライバシーポリシー</a>
+      <a href="">特定商品取引法に基づく表記</a>
+    </footer>
   </section>
 
   <script src="../js/swiper_bundle.min.js" defer></script>

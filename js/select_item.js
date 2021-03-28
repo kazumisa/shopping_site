@@ -104,176 +104,198 @@
     item_size_color_on.classList.add('hide');
   })
 
-
   // -----お気に入り登録と解除に関する処理-----お気に入り登録と解除に関する処理-----
-  window.addEventListener('DOMContentLoaded', async function() {
-    // データのやり取り
-    const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
-    const items_data = await response.json();
+  const item_url_obj = {}; // 写真のURLを格納するオブジェクト
+  const item_brand_obj = {}; // ブランド名を格納するオブジェクト
+  const item_name_obj = {}; // 商品名を格納するオブジェクト
+  const item_price_obj = {}; // 商品価格を格納するオブジェクト
 
+  // -----お気に入り登録に関する処理(SPサイト・PCサイト共通)-----お気に入り登録に関する処理(SPサイト・PCサイト共通)-----
+  window.addEventListener('DOMContentLoaded', function() {
     // ローカルストレージのJSONデータを取得してオブジェクト型に変換
     const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
     const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
     const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
     const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
-    const json_cart_obj = JSON.parse(localStorage.getItem('cart'));
 
-    // 各要素の取得
-    const register_favorite = document.querySelector('.register_btn');
-    const register_div = register_favorite.parentElement;
-    const main_top = register_div.parentElement;
-    const item_pic = main_top.firstElementChild;
-    const img = item_pic.firstElementChild;
-    const img_src = img.getAttribute('src'); // 写真のURLを取得
-    const item_content = item_pic.nextElementSibling;
-    const brand_name = item_content.children[0]; // ブランド名の要素を取得
-    const item_name = item_content.children[1]; // 商品名の要素を取得
-    const item_price = item_content.children[2]; // 商品価格の要素を取得
-
+    const favorite_btn = document.querySelector('.register_btn');
+    const favorite_id = favorite_btn.getAttribute('id');
     if(json_url_obj !== null) {
-      // お気に入り登録された商品のキーを取得
       const keys = Object.keys(json_url_obj);
-
-      if(keys.length !== 0) { // お気に入り登録されている商品がある時の処理
+      if(keys.length !== 0) { // 既にお気に入り登録されている商品の処理
         keys.forEach(key => {
-          if(img_src === json_url_obj[key]) {
-            // お気に入り登録されている商品に解除ボタンを配置
-            register_favorite.innerHTML = 'お気に入り解除';
-            register_favorite.classList.remove('register');
-            register_favorite.classList.add('release');
-          } 
-        })
-      }
-    }
-
-    if(json_cart_obj !== null) {
-      // 買い物かごに追加された商品のキーを取得
-      const cart_keys = Object.keys(json_cart_obj);
-
-      if(cart_keys.length !== 0) { // 買い物かごに追加された商品がある時の処理
-        cart_keys.forEach(cart_key => {
-          if(img_src === json_cart_obj[cart_key]) {
-            // 買い物かごに追加されている商品に背景色を追加
-            const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
-            shopping_cart_btn.classList.add('add_cart');
-            shopping_cart_btn.classList.add('backColor');
+          if(key === favorite_id) {
+            favorite_btn.classList.add('nowFavorite');
+            favorite_btn.innerHTML = "お気に入り解除";
           }
         })
       }
     }
 
-    if(json_cart_obj === null) {
-      const shopping_cart_obj = {};
-      const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
-      shopping_cart_btn.addEventListener('click', async function() {
-        // データのやり取り
-        const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
-        const items_data = await response.json();
+    favorite_btn.addEventListener('click', function() {
+      const favorite = favorite_btn.classList.toggle('nowFavorite')
+      const parent_div = favorite_btn.parentElement;
+      const main_top = parent_div.parentElement;
+      const item_pic = main_top.firstElementChild;
+      const img = item_pic.firstElementChild;
+      const img_src = img.getAttribute('src'); // 写真のURLを取得
+      const item_content = item_pic.nextElementSibling;
+      const brand_name = item_content.children[0]; // ブランド名を取得
+      const item_name = item_content.children[1]; // 商品名を取得
+      const item_price = item_content.children[2]; // 商品価格を取得
+      const item_id = favorite_btn.getAttribute('id');
 
-        // 商品の写真のURLを取得
-        const parent = shopping_cart_btn.parentElement;
-        const nextParent = parent.parentElement;
-        const item_pic = nextParent.firstElementChild;
-        const img = item_pic.firstElementChild;
-        const img_src = img.getAttribute('src');
+      // お気に入り登録した際の処理(関数)
+      function addFavorite() { 
+        favorite_btn.innerHTML = "お気に入り解除";
 
-        items_data.forEach(item_data => {
-          if(item_data.item === img_src) {
-            // 要素をオブジェクトに追加
-            shopping_cart_obj[item_data.id] = img_src;
-
-            // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-            localStorage.setItem('cart', JSON.stringify(shopping_cart_obj));
-
-            // 買い物かごに追加されている商品に背景色を追加
-            const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
-            shopping_cart_btn.classList.add('add_cart');
-            shopping_cart_btn.classList.add('backColor');
-          } 
-        })
-      })
-    } else if (json_cart_obj !== null) {
-      const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
-      shopping_cart_btn.addEventListener('click', async function() {
-        // データのやり取り
-        const response = await fetch('https://jsondata.okiba.me/v1/json/xmIUt210325053424');
-        const items_data = await response.json();
-
-        // 商品の写真のURLを取得
-        const parent = shopping_cart_btn.parentElement;
-        const nextParent = parent.parentElement;
-        const item_pic = nextParent.firstElementChild;
-        const img = item_pic.firstElementChild;
-        const img_src = img.getAttribute('src');
-
-        items_data.forEach(item_data => {
-          if(item_data.item === img_src) {
-            // 要素をオブジェクトに追加
-            json_cart_obj[item_data.id] = img_src;
-
-            // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-            localStorage.setItem('cart', JSON.stringify(json_cart_obj));
-
-            // 買い物かごに追加されている商品に背景色を追加
-            const shopping_cart_btn = document.querySelector('.shopping_cart_btn');
-            shopping_cart_btn.classList.add('add_cart');
-            shopping_cart_btn.classList.add('backColor');
-          } 
-        })
-      })
-    }
-
-    function registerFavorite() {
-      const register = document.querySelector('.register'); // お気に入り登録ボタンを取得
-      if(register !== null) {
-        // お気に入り登録する際の処理
-        items_data.forEach(item_data => {
-          if(item_data.item === img_src) {
-            // 要素をオブジェクトに追加
-            json_url_obj[item_data.id] = img_src;
-            json_brand_obj[item_data.id] = brand_name;
-            json_name_obj[item_data.id] = item_name;
-            json_price_obj[item_data.id] = item_price;
+        if(json_url_obj === null) {
+          // 要素をオブジェクトに追加
+          item_url_obj[item_id] = img_src;
+          item_brand_obj[item_id] = brand_name.textContent;
+          item_name_obj[item_id] = item_name.textContent;
+          item_price_obj[item_id] = item_price.textContent; 
+        } else {
+          // 要素をオブジェクトに追加
+          json_url_obj[item_id] = img_src;
+          json_brand_obj[item_id] = brand_name.textContent;
+          json_name_obj[item_id] = item_name.textContent;
+          json_price_obj[item_id] = item_price.textContent; 
+        }
   
-            // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-            localStorage.setItem('item_url', JSON.stringify(json_url_obj));
-            localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
-            localStorage.setItem('item_name', JSON.stringify(json_name_obj));
-            localStorage.setItem('item_price', JSON.stringify(json_price_obj));
-  
-            // お気に入り解除ボタンを設置
-            register_favorite.classList.remove('register');
-            register_favorite.classList.add('release');
-            register_favorite.innerHTML = 'お気に入り解除';
+        if(json_url_obj === null) {
+          //取得したオブジェクトをローカルストレージにJSON形式で保存する
+          localStorage.setItem('item_url', JSON.stringify(item_url_obj));
+          localStorage.setItem('item_brand', JSON.stringify(item_brand_obj));
+          localStorage.setItem('item_name', JSON.stringify(item_name_obj));
+          localStorage.setItem('item_price', JSON.stringify(item_price_obj));
+        } else {
+          //取得したオブジェクトをローカルストレージにJSON形式で保存する
+          localStorage.setItem('item_url', JSON.stringify(json_url_obj));
+          localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
+          localStorage.setItem('item_name', JSON.stringify(json_name_obj));
+          localStorage.setItem('item_price', JSON.stringify(json_price_obj));
+        }
+      }
+      // お気に入り解除した際の処理(関数)
+      function deleteFavorite() {
+        favorite_btn.innerHTML = "お気に入り登録";
+
+        // オブジェクトから要素を削除
+        delete item_url_obj[item_id];
+        delete item_brand_obj[item_id];
+        delete item_name_obj[item_id];
+        delete item_price_obj[item_id];
+
+        // ローカルストレージのJSONデータを取得してオブジェクト型に変換
+        const json_url_obj = JSON.parse(localStorage.getItem('item_url'));
+        const json_brand_obj = JSON.parse(localStorage.getItem('item_brand'));
+        const json_name_obj = JSON.parse(localStorage.getItem('item_name'));
+        const json_price_obj = JSON.parse(localStorage.getItem('item_price'));
+      
+        // オブジェクトから要素を削除
+        delete json_url_obj[item_id];
+        delete json_brand_obj[item_id];
+        delete json_name_obj[item_id];
+        delete json_price_obj[item_id];
+
+        // 取得したオブジェクトをローカルストレージにJSON形式で保存する
+        localStorage.setItem('item_url', JSON.stringify(json_url_obj));
+        localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
+        localStorage.setItem('item_name', JSON.stringify(json_name_obj));
+        localStorage.setItem('item_price', JSON.stringify(json_price_obj)); 
+      }
+
+      if(json_url_obj === null && json_brand_obj === null && json_name_obj === null && json_price_obj === null) {
+        if(favorite) {
+          addFavorite();
+        } else {
+          deleteFavorite();
+        }
+      } else {
+        if(favorite) {
+          addFavorite();
+        } else {
+          deleteFavorite();
+        }
+      }
+    })
+
+    // -----買い物かごに商品を追加した際の処理-----買い物かごに商品を追加した際の処理-----
+    const cart_url_obj = {}; // 商品をカートに入れるオブジェクト
+    const cart_brand_obj = {}; // 商品をカートに入れるオブジェクト
+    const cart_name_obj = {}; // 商品をカートに入れるオブジェクト
+    const cart_price_obj = {}; // 商品をカートに入れるオブジェクト
+
+    // ローカルストレージのJSONデータを取得してオブジェクト型に変換
+    const json_cart_url = JSON.parse(localStorage.getItem('cart_item_url'));
+
+    // "買い物かごに入れる"ボタンを取得
+    const cart_btn = document.querySelector('.shopping_cart_btn');
+
+    if(json_cart_url !== null) {
+      const keys = Object.keys(json_cart_url);
+      if(keys !== 0) {
+        keys.forEach(key => {
+          const img = document.querySelector('img');
+          const img_src = img.getAttribute('src');
+          const cart_url = json_cart_url[key];
+          if(cart_url === img_src) {
+            cart_btn.classList.add('backColor')
+            cart_btn.innerHTML = "買い物かごに追加済み";
           }
         })
-      } else{
-        // お気に入り解除する際の処理
-        items_data.forEach(item_data => {
-          if(item_data.item === img_src) {
-            // 要素をオブジェクトに追加
-            delete json_url_obj[item_data.id];
-            delete json_brand_obj[item_data.id];
-            delete json_name_obj[item_data.id];
-            delete json_price_obj[item_data.id];
-  
-            // 取得したオブジェクトをローカルストレージにJSON形式で保存する
-            localStorage.setItem('item_url', JSON.stringify(json_url_obj));
-            localStorage.setItem('item_brand', JSON.stringify(json_brand_obj));
-            localStorage.setItem('item_name', JSON.stringify(json_name_obj));
-            localStorage.setItem('item_price', JSON.stringify(json_price_obj));
-  
-            // お気に入り解除ボタンを設置
-            register_favorite.classList.remove('release');
-            register_favorite.classList.add('register');
-            register_favorite.innerHTML = 'お気に入り登録';
-          }
-        })  
       }
     }
-    const register_btn = document.querySelector('.register_btn');
-    register_btn.addEventListener('click', function() {
-      registerFavorite()
-    });
-  }) 
+    cart_btn.addEventListener('click', function() {
+      cart_btn.classList.add('backColor');
+      const parent = cart_btn.parentElement;
+      const main_top = parent.parentElement;
+      const item_pic = main_top.firstElementChild;
+      const img = item_pic.firstElementChild;
+      const img_src = img.getAttribute('src'); // 写真のURLを取得
+      const item_content = item_pic.nextElementSibling;
+      const brand_name = item_content.children[0]; // ブランド名を取得
+      const item_name = item_content.children[1]; // 商品名を取得
+      const item_price = item_content.children[2]; // 商品価格を取得
+      const register_btn = document.querySelector('.register_btn');
+      const item_id = register_btn.getAttribute('id');
+
+      if(json_cart_url === null) {
+        // 買い物かごに追加した際の処理
+        cart_url_obj[item_id] = img_src;
+        cart_brand_obj[item_id] = brand_name.textContent;
+        cart_name_obj[item_id] = item_name.textContent;
+        cart_price_obj[item_id] = item_price.textContent;
+  
+        //取得したオブジェクトをローカルストレージにJSON形式で保存する
+        localStorage.setItem('cart_item_url', JSON.stringify(cart_url_obj));
+        localStorage.setItem('cart_item_brand', JSON.stringify(cart_brand_obj));
+        localStorage.setItem('cart_item_name', JSON.stringify(cart_name_obj));
+        localStorage.setItem('cart_item_price', JSON.stringify(cart_price_obj));
+  
+        cart_btn.innerHTML = "買い物かごに追加済み";
+      } else {
+        // ローカルストレージのJSONデータを取得してオブジェクト型に変換
+        const json_cart_url = JSON.parse(localStorage.getItem('cart_item_url'));
+        const json_cart_brand = JSON.parse(localStorage.getItem('cart_item_brand'));
+        const json_cart_name = JSON.parse(localStorage.getItem('cart_item_name'));
+        const json_cart_price = JSON.parse(localStorage.getItem('cart_item_price'));
+
+        // 買い物かごに追加した際の処理
+        json_cart_url[item_id] = img_src;
+        json_cart_brand[item_id] = brand_name.textContent;
+        json_cart_name[item_id] = item_name.textContent;
+        json_cart_price[item_id] = item_price.textContent;
+  
+        //取得したオブジェクトをローカルストレージにJSON形式で保存する
+        localStorage.setItem('cart_item_url', JSON.stringify(json_cart_url));
+        localStorage.setItem('cart_item_brand', JSON.stringify(json_cart_brand));
+        localStorage.setItem('cart_item_name', JSON.stringify(json_cart_name));
+        localStorage.setItem('cart_item_price', JSON.stringify(json_cart_price));
+  
+        cart_btn.innerHTML = "買い物かごに追加済み";
+      }
+    })
+  })
 }

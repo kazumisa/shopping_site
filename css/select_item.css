@@ -293,12 +293,12 @@ body {
   }
   
   main .main_top .shopping_cart .shopping_cart_btn.backColor {
-    background: #808080;
+    background: #ccc;
     cursor: auto;
   }
 
   main .main_top .shopping_cart .shopping_cart_btn.backColor:hover {
-    background: #808080;
+    background: #ccc;
     cursor: auto;
   }
 

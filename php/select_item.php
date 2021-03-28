@@ -88,7 +88,7 @@ if(isset($_SESSION['login_user'])) {
 
         <!-- お気に入り登録・解除 -->
         <div class="favorite">
-          <span class="register_btn register">お気に入り登録</span>
+          <span class="register_btn register" id="<?php echo $itemData['id']?>">お気に入り登録</span>
         </div>
 
         <!-- 買い物かごに入れる処理 -->
