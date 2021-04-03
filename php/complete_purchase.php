@@ -1,16 +1,24 @@
-<?php
+<?php 
 session_start();
-require_once('./dbc_create_user.php');
-
-// インスタンス化
-$user = new User();
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
   $login_user = $_SESSION['login_user'];
+} else {
+  header('Location: ./index.php');
 }
 
+$token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+// トークンバリデーション(XSS対策, 二重送信防止対策)
+if(!$_SESSION['token'] || $_SESSION['token'] !== $token) {
+  header('Location: ./index.php');
+  exit();
+}
+// トークン削除
+unset($_SESSION['token']);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,8 +26,8 @@ if(isset($_SESSION['login_user'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/shopping_cart.css">
-  <title>Milfin_shopping_cart</title>
+  <link rel="stylesheet" href="../css/complete_purchase.css">
+  <title>Milfin_complete_purchase</title>
 </head>
 <body>
   <!-- スマートフォンサイト -->
@@ -50,21 +58,12 @@ if(isset($_SESSION['login_user'])) {
       <!-- タブメニュー -->
       <div class="mask"></div>
       <div class="window">
-        <?php if(!isset($login_user)) :?>   
-        <ul>
-          <li><a href="./index.php">トップへ</a></li>
-          <li><a href="./create_user.php">新規登録</a></li>
-          <li><a href="./login_form.php">ログイン</a></li>
-          <!-- <li><a href="">よくある質問</a></li> -->
-          <li><a href="./contact_form.php">お問い合わせ</a></li>
-        </ul>
-        <?php endif ;?>
         <?php if(isset($login_user)) :?>   
         <ul>
           <li><a href="./index.php">トップへ</a></li>
-          <li><a href="./user_account.php">アカウント情報</a></li>
+          <li><a href="./my_page.php">アカウント情報</a></li>
           <li><a href="./purchase_history.php">購入履歴</a></li>
-          <!-- <li><a href="">よくある質問</a></li> -->
+          <li><a href="">よくある質問</a></li>
           <li><a href="./contact_form.php">お問い合わせ</a></li>
           <li><a href="./logout.php" class="logout">ログアウト</a></li>
         </ul>
@@ -73,19 +72,7 @@ if(isset($_SESSION['login_user'])) {
     </header>
 
     <main>
-      <form action="./user_address.php" method="POST">
-        <div class="cart_count">
-  
-        </div>
-        <div class="go_register">
-  
-        </div>
-        <div class="container">
-          
-        </div>
-
-        <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
-      </form>
+      <p>注文を確定しました。注文内容の確認は購入履歴からできます。</p>
     </main>
   </section>
 
@@ -139,6 +126,6 @@ if(isset($_SESSION['login_user'])) {
     </header>
   </section>
   
-  <script src="../js/shopping_cart.js"></script>
+  <script src="../js/complete_purchase.js"></script>
 </body>
 </html>

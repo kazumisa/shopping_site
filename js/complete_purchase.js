@@ -12,7 +12,7 @@
   milfin[1].addEventListener('click', () => {
     location.href = '../php/index.php';
   })
-   
+
   // -----画面右上のメニューアイコンに関する処理(スマートフォンサイト)-----画面右上のメニューアイコンに関する処理(スマートフォンサイト)-----
   const mask = document.querySelectorAll('.mask');
   const menu = document.querySelectorAll('.menu');
@@ -41,7 +41,6 @@
   // -----ログアウトに関する処理-----ログアウトに関する処理-----ログアウトに関する処理-----ログアウトに関する処理-----
   const logout = document.querySelectorAll('.logout');
   if(logout.length !== 0) {
-
     // SPサイト
     logout[0].addEventListener('click', function(e) { 
       const conf = confirm('ログアウトしますか？');
@@ -64,4 +63,14 @@
       }
     })
   }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    // 買い物かごの商品を削除
+    localStorage.removeItem('cart_item_url');
+    localStorage.removeItem('cart_item_brand');
+    localStorage.removeItem('cart_item_name');
+    localStorage.removeItem('cart_item_price');
+
+    
+  })
 }

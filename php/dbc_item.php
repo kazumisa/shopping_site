@@ -39,16 +39,15 @@ Class Item extends Dbc
     }
   } 
 
-
   /**
-   * データベースから商品を降順で30件取得
+   * データベースから商品を降順で20件取得
    * @param void
    * @param array $itemsData
    */
   public function getItemData() {
     try {
       $pdo = $this->dbConnect();
-      $sql = "SELECT * FROM items ORDER BY id DESC LIMIT 30";
+      $sql = "SELECT * FROM items ORDER BY id DESC LIMIT 20";
       $result = $pdo->query($sql);
       $itemsData = $result->fetchAll(PDO::FETCH_ASSOC);
       return $itemsData;
@@ -58,7 +57,7 @@ Class Item extends Dbc
   }
 
   /**
-   * 商品idに該当するデータを全て取得
+   * 商品IDに該当するデータを全て取得
    * @param  int   $id
    * @return array $itemData
    */
@@ -81,7 +80,7 @@ Class Item extends Dbc
    * @param string $item
    * @return array $itemsData
    */
-  public function getItem($item) {
+  public function searchItem($item) {
     try {
       $pdo  = $this->dbConnect();
       $sql  = "SELECT * FROM items WHERE category=:category OR brand_name=:brand_name OR item_name=:item_name";

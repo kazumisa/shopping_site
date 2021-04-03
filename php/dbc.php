@@ -43,6 +43,27 @@ Class Dbc
   }
 
   /**
+   * 電話番号ハイフン
+   * @param  $tel
+   * @return $result
+   */
+  public static function hyphenTel($tel) {
+    $hyphen1 = substr_replace($tel, '-', 3, 0);
+    $result = substr_replace($hyphen1, '-', 8, 0);
+    return $result;
+  }
+
+  /**
+   * 電話番号ハイフン
+   * @param  $postalCode
+   * @return $result
+   */
+  public static function hyphenPostalCode($postalCode) {
+    $result = substr_replace($postalCode, '-', 3, 0);
+    return $result;
+  }
+
+  /**
    * CSRF対策 : ワンタイムトークン
    * @param void
    * @return string $token

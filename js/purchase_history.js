@@ -12,7 +12,7 @@
   milfin[1].addEventListener('click', () => {
     location.href = '../php/index.php';
   })
-   
+
   // -----画面右上のメニューアイコンに関する処理(スマートフォンサイト)-----画面右上のメニューアイコンに関する処理(スマートフォンサイト)-----
   const mask = document.querySelectorAll('.mask');
   const menu = document.querySelectorAll('.menu');

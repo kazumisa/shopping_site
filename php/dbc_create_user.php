@@ -32,6 +32,30 @@ Class User extends Dbc {
     }
 
     /**
+     * アカウント情報編集
+     * @param  $id
+     * @param  $email
+     * @param  $get_messages
+     * @param  $tel
+     * @return $result
+     */
+    public function updateUser($id, $email, $get_messages, $tel) {
+      try {
+        $pdo = $this->dbConnect();
+        $sql = 'UPDATE create_user SET email = :email, get_messages = :get_messages, tel = :tel WHERE id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue('id', $id, PDO::PARAM_INT);
+        $stmt->bindValue('email', $email, PDO::PARAM_STR);
+        $stmt->bindValue('get_messages', $get_messages, PDO::PARAM_STR);
+        $stmt->bindValue('tel', $tel, PDO::PARAM_STR);
+        $result = $stmt->execute();
+        return $result;
+      } catch (PDOException $e) {
+        exit($e->getMessage());
+      }
+    }
+
+    /**
      * データベースからメールアドレスを取得 
      * @param void
      * @return string $email
@@ -176,6 +200,32 @@ Class User extends Dbc {
         $stmt->execute();
         $userAddress = $stmt->fetch(PDO::FETCH_ASSOC);
         return $userAddress;
+      } catch (PDOException $e) {
+        exit($e->getMessage());
+      }
+    }
+
+    /**
+     * 住所変更
+     * @param  $id
+     * @param  $name
+     * @param  $postalCode
+     * @param  $address
+     * @param  $tel
+     * @return $result;
+     */
+    public function updateAddress($id, $name, $postalCode, $address, $tel) {
+      try {
+        $pdo = $this->dbConnect();
+        $sql = 'UPDATE user_address SET name = :name, postalCode = :postalCode, address = :address, tel = :tel WHERE userID = :userID';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue('userID', $id, PDO::PARAM_INT);
+        $stmt->bindValue('name', $name, PDO::PARAM_STR);
+        $stmt->bindValue('postalCode', $postalCode, PDO::PARAM_STR);
+        $stmt->bindValue('address', $address, PDO::PARAM_STR);
+        $stmt->bindValue('tel', $tel, PDO::PARAM_STR);
+        $result = $stmt->execute();
+        return $result;
       } catch (PDOException $e) {
         exit($e->getMessage());
       }

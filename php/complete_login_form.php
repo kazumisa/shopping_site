@@ -47,7 +47,7 @@ if(count($err) > 0) {
     if($userAddress) {
       $_SESSION['user_address'] = $userAddress;
     }
-    header('Location: ./my_page.php');
+    header('Location: ./index.php');
   } else {
     header('Location: ./login_form.php');
     exit();

@@ -10,6 +10,12 @@ if(isset($_SESSION['login_user'])) {
   $login_user = $_SESSION['login_user'];
 }
 
+if(isset($_SESSION['err'])) {
+  $err = $_SESSION['err'];
+
+  unset($_SESSION['err']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +24,8 @@ if(isset($_SESSION['login_user'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/shopping_cart.css">
-  <title>Milfin_shopping_cart</title>
+  <link rel="stylesheet" href="../css/update_user.css">
+  <title>Milfin_update_user</title>
 </head>
 <body>
   <!-- スマートフォンサイト -->
@@ -42,23 +48,14 @@ if(isset($_SESSION['login_user'])) {
       <!-- 商品検索機能 -->
       <div class="search">
         <form action="./index.php" method="GET" id="form">
-          <input type="text" name="search" id="search" placeholder="何かお探しですか？" autocomplete="off">
-          <input type="submit" name="submit" id="submit" value="&#xf002;" class="fas">
+          <input type="text" name="search" id="sp_search" placeholder="何かお探しですか？" autocomplete="off">
+          <input type="submit" name="submit" id="sp_submit" value="&#xf002;" class="fas">
       </form>
       </div>
       
       <!-- タブメニュー -->
       <div class="mask"></div>
       <div class="window">
-        <?php if(!isset($login_user)) :?>   
-        <ul>
-          <li><a href="./index.php">トップへ</a></li>
-          <li><a href="./create_user.php">新規登録</a></li>
-          <li><a href="./login_form.php">ログイン</a></li>
-          <!-- <li><a href="">よくある質問</a></li> -->
-          <li><a href="./contact_form.php">お問い合わせ</a></li>
-        </ul>
-        <?php endif ;?>
         <?php if(isset($login_user)) :?>   
         <ul>
           <li><a href="./index.php">トップへ</a></li>
@@ -73,18 +70,58 @@ if(isset($_SESSION['login_user'])) {
     </header>
 
     <main>
-      <form action="./user_address.php" method="POST">
-        <div class="cart_count">
-  
-        </div>
-        <div class="go_register">
-  
-        </div>
-        <div class="container">
+      <div class="update">
+        <span class="material-icons" id="update">update</span>
+        <h3>会員情報編集</h3>
+      </div>
+
+      <!-- フォームに関する記述 -->
+      <form class="update_form" action="./complete_update_user.php" method="POST">
+
+      <!-- メールアドレスに関する記述 -->
+        <div class="email">
+          <p class="title">メールアドレス <span>※必須</span></p>
+          <input type="email" name="email" id="email" autocomplete="off"
+          value="<?php echo $login_user['email']?>">
           
+          <div class="err">
+            <?php if(isset($err['email'])) :?>
+              <p id="err_msg"><?php echo $err['email'] ;?></p>
+            <?php endif ;?>
+          </div>
+
+          <div class="desc">
+            <input type="checkbox" name="checkbox" id="checkbox" <?php echo $login_user['get_messages'] === "on" ? "checked" : " " ;?>>
+            <p>クーポンおよびショップに関する情報を受け取る</p>
+          </div>
         </div>
 
-        <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
+
+        <!-- 電話番号に関する記述 -->
+        <div class="tel">
+          <p class="title">電話番号</p>
+          <p class="title_desc">ハイフンなし電話番号を記入して下さい</p>
+          <input type="tel" name="tel" id="tel" autocomplete="off" value="<?php echo $login_user['tel']?>">
+
+          <div class="err">
+            <?php if(isset($err['tel'])) :?>
+              <p id="err_msg"><?php echo '※'.$err['tel'] ;?></p>
+            <?php endif ;?>
+          </div>
+
+          <p class="desc">※設定していただくとパスワードをお忘れの際、パスワードの設定がスムーズにおこなえます。</p>
+        </div>
+
+        <!-- ログインユーザのIDに関する記述 -->
+        <input type="hidden" name="id" value="<?php echo $login_user['id'];?>">
+
+        <!-- トークンに関する記述 -->
+        <input type="hidden" name="token" value="<?php echo User::h(User::setToken());?>">
+
+        <!-- 送信に関する記述 -->
+        <div class="submit">
+          <input type="submit" name="submit" id="submit" value="登録完了">
+        </div>
       </form>
     </main>
   </section>
@@ -139,6 +176,6 @@ if(isset($_SESSION['login_user'])) {
     </header>
   </section>
   
-  <script src="../js/shopping_cart.js"></script>
+  <script src="../js/update_user.js"></script>
 </body>
 </html>

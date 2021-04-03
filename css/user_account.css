@@ -258,6 +258,13 @@ body {
     transition: background .3s;
   }
 
+  main .infomation .user_info .change a,
+  main .infomation .user_address .change a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+  }
+
   main .infomation .user_info .change:hover,
   main .infomation .user_address .change:hover {
     background:  #5D99FF;

@@ -10,13 +10,15 @@ if(isset($_SESSION['login_user'])) {
 // インスタンス化
 $Item = new Item();
 
+// 新着アイテムを最新の商品から20件
+if(!isset($search_word)) {
+  $items = $Item->getItemData();
+}
+
 // 商品検索機能
 $search_word = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL_CHARS);
-$search_items = $Item->getItem($search_word);
-
-if(!$search_word) {
-  // 商品一覧を最新の商品から30件
-  $items = $Item->getItemData();
+if(isset($search_word)) {
+  $search_items = $Item->searchItem($search_word);
 }
 
 ?>
@@ -34,6 +36,7 @@ if(!$search_word) {
 <body>
   <!-- スマートフォンサイト -->
   <section class="sp-site">
+    <!-- ヘッダー -->
     <header>
       <!-- トップ -->
       <div class="top">
@@ -62,19 +65,18 @@ if(!$search_word) {
       <!-- タブメニュー -->
       <div class="mask"></div>
       <div class="window">
-        <?php if(!isset($login_user)) :?>   
+        <?php if(!isset($login_user)) :?> 
         <ul>
           <li><a href="./create_user.php">新規登録</a></li>
           <li><a href="./login_form.php">ログイン</a></li>
-          <li><a href="">よくある質問</a></li>
+          <!-- <li><a href="">よくある質問</a></li> -->
           <li><a href="./contact_form.php">お問い合わせ</a></li>
         </ul>
-        <?php endif ;?>
-        <?php if(isset($login_user)) :?>   
+        <?php else :?>
         <ul>
-          <li><a href="./my_page.php">アカウント情報</a></li>
-          <li><a href="">購入履歴</a></li>
-          <li><a href="">よくある質問</a></li>
+          <li><a href="./user_account.php">アカウント情報</a></li>
+          <li><a href="./purchase_history.php">購入履歴</a></li>
+          <!-- <li><a href="">よくある質問</a></li> -->
           <li><a href="./contact_form.php">お問い合わせ</a></li>
           <li><a href="./logout.php" class="logout">ログアウト</a></li>
         </ul>

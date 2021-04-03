@@ -61,9 +61,8 @@ if(isset($_SESSION['user_address'])) {
         <?php if(isset($login_user)) :?>   
         <ul>
           <li><a href="./index.php">トップへ</a></li>
-          <li><a href="./my_page.php">アカウント情報</a></li>
-          <li><a href="">購入履歴</a></li>
-          <li><a href="">よくある質問</a></li>
+          <li><a href="./purchase_history.php">購入履歴</a></li>
+          <!-- <li><a href="">よくある質問</a></li> -->
           <li><a href="./contact_form.php">お問い合わせ</a></li>
           <li><a href="./logout.php" class="logout">ログアウト</a></li>
         </ul>
@@ -79,7 +78,7 @@ if(isset($_SESSION['user_address'])) {
         <?php if(isset($login_user)) :?>
         <div class="user_info">
           <h3>ユーザ情報</h3>
-          <div class="change">変更</div>
+          <div class="change"><a href="./update_user.php">変更</a></div>
         </div>
         <table border="1">
           <tr>
@@ -100,7 +99,7 @@ if(isset($_SESSION['user_address'])) {
         <?php if(isset($_SESSION['user_address'])) :?>
         <div class="user_address">
           <h3>配送先住所</h3>
-          <div class="change">変更</div>
+          <div class="change"><a href="./update_address.php">変更</a></div>
         </div>
         <table border="1">
           <tr>

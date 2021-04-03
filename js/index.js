@@ -47,12 +47,6 @@
     logout[0].addEventListener('click', function(e) { 
       const conf = confirm('ログアウトしますか？');
       if(conf) {
-        // お気に入り商品を解除
-        localStorage.removeItem('item_url');
-        localStorage.removeItem('item_brand');
-        localStorage.removeItem('item_name');
-        localStorage.removeItem('item_price');
-        localStorage.removeItem('cart');
         alert('ログアウトしました。');
         location.href('../php/logout.php');
       } else {
@@ -64,12 +58,6 @@
     logout[1].addEventListener('click', function(e) { 
       const conf = confirm('ログアウトしますか？');
       if(conf) {
-        // お気に入り商品を解除
-        localStorage.removeItem('item_url');
-        localStorage.removeItem('item_brand');
-        localStorage.removeItem('item_name');
-        localStorage.removeItem('item_price');
-        localStorage.removeItem('cart');
         alert('ログアウトしました。');
         location.href('../php/logout.php');
       } else {

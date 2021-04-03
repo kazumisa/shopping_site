@@ -68,7 +68,7 @@ if(isset($_SESSION['login_err'])) {
       <ul>
         <li><a href="./index.php">トップへ</a></li>
         <li><a href="./create_user.php">新規登録</a></li>
-        <li><a href="">よくある質問</a></li>
+        <!-- <li><a href="">よくある質問</a></li> -->
         <li><a href="./contact_form.php">お問い合わせ</a></li>
       </ul>
     </div>

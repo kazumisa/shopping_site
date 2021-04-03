@@ -1,13 +1,11 @@
 <?php
 session_start();
-require_once('./dbc_create_user.php');
-
-// インスタンス化
-$user = new User();
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
   $login_user = $_SESSION['login_user'];
+} else {
+  header('Location: ./index.php');
 }
 
 ?>
@@ -18,8 +16,8 @@ if(isset($_SESSION['login_user'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="../css/shopping_cart.css">
-  <title>Milfin_shopping_cart</title>
+  <link rel="stylesheet" href="../css/purchase_history.css">
+  <title>Milfin_purchase_history</title>
 </head>
 <body>
   <!-- スマートフォンサイト -->
@@ -42,28 +40,18 @@ if(isset($_SESSION['login_user'])) {
       <!-- 商品検索機能 -->
       <div class="search">
         <form action="./index.php" method="GET" id="form">
-          <input type="text" name="search" id="search" placeholder="何かお探しですか？" autocomplete="off">
-          <input type="submit" name="submit" id="submit" value="&#xf002;" class="fas">
+          <input type="text" name="search" id="sp_search" placeholder="何かお探しですか？" autocomplete="off">
+          <input type="submit" name="submit" id="sp_submit" value="&#xf002;" class="fas">
       </form>
       </div>
       
       <!-- タブメニュー -->
       <div class="mask"></div>
       <div class="window">
-        <?php if(!isset($login_user)) :?>   
-        <ul>
-          <li><a href="./index.php">トップへ</a></li>
-          <li><a href="./create_user.php">新規登録</a></li>
-          <li><a href="./login_form.php">ログイン</a></li>
-          <!-- <li><a href="">よくある質問</a></li> -->
-          <li><a href="./contact_form.php">お問い合わせ</a></li>
-        </ul>
-        <?php endif ;?>
         <?php if(isset($login_user)) :?>   
         <ul>
           <li><a href="./index.php">トップへ</a></li>
           <li><a href="./user_account.php">アカウント情報</a></li>
-          <li><a href="./purchase_history.php">購入履歴</a></li>
           <!-- <li><a href="">よくある質問</a></li> -->
           <li><a href="./contact_form.php">お問い合わせ</a></li>
           <li><a href="./logout.php" class="logout">ログアウト</a></li>
@@ -71,22 +59,6 @@ if(isset($_SESSION['login_user'])) {
         <?php endif ;?>
       </div>
     </header>
-
-    <main>
-      <form action="./user_address.php" method="POST">
-        <div class="cart_count">
-  
-        </div>
-        <div class="go_register">
-  
-        </div>
-        <div class="container">
-          
-        </div>
-
-        <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
-      </form>
-    </main>
   </section>
 
   <!-- PCサイト -->
@@ -129,7 +101,6 @@ if(isset($_SESSION['login_user'])) {
         <ul>
           <li><a href="./index.php">トップへ</a></li>
           <li><a href="./my_page.php">アカウント情報</a></li>
-          <li><a href="./purchase_history.php">購入履歴</a></li>
           <li><a href="">よくある質問</a></li>
           <li><a href="./contact_form.php">お問い合わせ</a></li>
           <li><a href="./logout.php" class="logout">ログアウト</a></li>
@@ -139,6 +110,6 @@ if(isset($_SESSION['login_user'])) {
     </header>
   </section>
   
-  <script src="../js/shopping_cart.js"></script>
+  <script src="../js/purchase_history.js"></script>
 </body>
 </html>

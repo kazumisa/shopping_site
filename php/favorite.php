@@ -57,16 +57,16 @@ if(isset($_SESSION['login_user'])) {
           <li><a href="./index.php">トップへ</a></li>
           <li><a href="./create_user.php">新規登録</a></li>
           <li><a href="./login_form.php">ログイン</a></li>
-          <li><a href="">よくある質問</a></li>
+          <!-- <li><a href="">よくある質問</a></li> -->
           <li><a href="./contact_form.php">お問い合わせ</a></li>
         </ul>
         <?php endif ;?>
         <?php if(isset($login_user)) :?>   
         <ul>
           <li><a href="./index.php">トップへ</a></li>
-          <li><a href="./my_page.php">アカウント情報</a></li>
-          <li><a href="">購入履歴</a></li>
-          <li><a href="">よくある質問</a></li>
+          <li><a href="./user_account.php">アカウント情報</a></li>
+          <li><a href="./purchase_history.php">購入履歴</a></li>
+          <!-- <li><a href="">よくある質問</a></li> -->
           <li><a href="./contact_form.php">お問い合わせ</a></li>
           <li><a href="./logout.php" class="logout">ログアウト</a></li>
         </ul>

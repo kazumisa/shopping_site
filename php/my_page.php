@@ -88,7 +88,7 @@ if(!isset($_SESSION['login_user'])) {
         </div>
         <?php endif ;?>
         <div class="purchase_history"> 
-          <a href="">購入履歴</a>
+          <a href="./purchase_history.php">購入履歴</a>
         </div>
         <div class="question"> 
           <a href="">よくある質問</a>
