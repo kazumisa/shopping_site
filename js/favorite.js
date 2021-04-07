@@ -108,7 +108,7 @@
             p.textContent = '現在、お気に入りされた商品は存在しません。';
             count_favorite.appendChild(p);
           } else {
-            p.textContent = `現在、お気に入りされた商品は${keys.length}件あります。`;
+            p.textContent = `現在、お気に入りされた商品は ${keys.length} 件あります。`;
             count_favorite.appendChild(p);
           }
         })

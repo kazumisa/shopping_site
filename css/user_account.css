@@ -105,6 +105,94 @@ body {
 }
 
 @media (min-width: 600px) {
-  /* これより下のコード全てのPCサイトにて使い回し可能 */
+  /* ユーザーアカウント情報のデザイン */
+  main {
+    margin-top: 150px;
+  }
+
+  main .account {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 16px;
+  }
+
+  main .account .account_box {
+    font-size: 24px;
+    margin-left: 16px;
+    line-height: 50px;
+  }
+
+  main .account h3 {
+    margin: 0;
+    line-height: 50px;
+    font-size: 24px;
+  }
+
+  main .infomation .user_info,
+  main .infomation .user_address {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    border-bottom: thick double #4689FF;
+  }
+
+  main .infomation .user_info h3,
+  main .infomation .user_address h3 {
+    margin: 0;
+    line-height: 30px;
+  }
+
+  main .infomation .user_info .change,
+  main .infomation .user_address .change {
+    width: 50px;
+    height: 20px;
+    background:  #4689FF;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 5px;
+    align-self: center;
+    cursor: pointer;
+
+    transition: background .3s;
+  }
+
+  main .infomation .user_info .change a,
+  main .infomation .user_address .change a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+  }
+
+  main .infomation .user_info .change:hover,
+  main .infomation .user_address .change:hover {
+    background:  #5D99FF;
+  }
+  
+
+  main .infomation table {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-bottom: 32px;
+    border-radius: 5px;
+    background: rgba(192, 192, 192, .2);
+  }
+
+  main table th {
+    width: 30%;
+    height: 50px;
+    font-size: 14px;
+  }
+
+  main table td {
+    width: 70%;
+    height: 50px;
+    font-size: 12px;
+    text-align: center;
+  }
 
 }

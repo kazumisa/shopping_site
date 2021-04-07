@@ -29,7 +29,6 @@ body {
   main .main_top .item_pic {
     width: 100%;
     margin: 0 auto;
-    text-align: center;
   }
 
   main .main_top .item_pic img {
@@ -236,5 +235,225 @@ body {
 }
 
 @media (min-width: 600px) {
+  /* 商品詳細に関するデザイン */
+  main {
+    margin-top: 150px;
+  }
+
+  main .main_top {
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+
+  main .main_top .div_flex {
+    display: flex;
+  }
+
+  main .main_top .item_pic {
+    width: 50%;
+    margin-right: auto;
+  }
+
+  main .main_top .item_pic img {
+    width: 100%;
+    object-fit: cover;
+    vertical-align: bottom; 
+  }
   
+  main .main_top .item_content {
+    width: 50%;
+    margin: 5px auto;
+    text-align: center;
+  }
+
+  main .main_top .item_content .brabd_name {
+    margin: 10px 0;
+    font-size: 20px;
+    color: #C0C0C0;
+  }
+
+  main .main_top .item_content .item_name {
+    margin: 4px 0;
+    font-size: 24px;
+    color: #C0C0C0;
+  }
+
+  main .main_top .item_content .item_price {
+    margin: 4px 0;
+    font-size: 24px;
+    color: rgba(0, 0, 0, .8);
+  }
+
+  main .main_top .favorite {
+    width: 60%;
+    height: 30px;
+    margin: 30px auto;
+    margin-bottom: 20px;
+    background:  #4689FF;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  main .main_top .shopping_cart {
+    width: 60%;
+    height: 30px;
+    margin: 30px auto;
+    background:  #4689FF;
+    text-align: center;
+    border-radius: 5px;
+  }
+
+  main .main_top .favorite span,
+  main .main_top .shopping_cart span {
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 30px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+
+    transition: background .3s;
+  }
+
+  main .main_top .favorite span:hover,
+  main .main_top .shopping_cart span:hover {
+    background:  #5D99FF;
+  }
+  
+  main .main_top .shopping_cart .shopping_cart_btn.backColor {
+    background: #ccc;
+    cursor: auto;
+  }
+
+  main .main_top .shopping_cart .shopping_cart_btn.backColor:hover {
+    background: #ccc;
+    cursor: auto;
+  }
+
+  main .main_middle {
+    width: 60%;
+    margin: 0 auto;
+  }
+
+  main .main_middle .off {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid #888;
+
+    transition: background .3s;
+  }
+
+  main .main_middle .off.hide {
+    display: none;
+  }
+
+  main .main_middle .on {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    cursor: pointer;
+    border-bottom: 1px solid #888;
+
+    transition: background .3s;
+  }
+
+  main .main_middle .on.hide {
+    display: none;
+  }
+
+  main .main_middle .off:hover,
+  main .main_middle .on:hover{
+    background: #fafafa;
+  }
+
+  main .main_middle .off .item_title,
+  main .main_middle .on .item_title  {
+    margin: 0 10px;
+  }
+
+  main .main_middle .upper_triangle {
+    width: 0px;
+    height: 0px;
+    border: 5px solid transparent;
+    border-bottom: 5px solid black;
+    margin: 0 10px;
+  }
+
+  main .main_middle .lower_triangle {
+    width: 0px;
+    height: 0px;
+    border: 5px solid transparent;
+    border-top: 5px solid black;
+    margin: 0 10px;
+  }
+
+  .item_detail {
+    width: 100%;
+    padding: 30px 0;
+    background: #fff;
+    border-bottom: 1px solid #888;
+  }
+
+  .item_detail.hide {
+    display: none;
+  }
+
+  .item_detail p {
+    margin: 0 20px;
+    font-size: 12px;
+    line-height: 2;
+    letter-spacing: 2px;
+  }
+
+  main .main_middle .item_size_color_off {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    cursor: pointer;
+
+    transition: background .3s;
+  }
+
+  main .main_middle .item_size_color_on {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    cursor: pointer;
+
+    transition: background .3s;
+  }
+
+  main .main_middle .item_size_color_off:hover,
+  main .main_middle .item_size_color_on:hover {
+    background: #fafafa;
+  }
+
+  .main_middle .item_size_color_off .size_color, 
+  .main_middle .item_size_color_on .size_color {
+    margin: 0 10px;
+  }
+
+  main .main_middle .item_size_color_on.hide {
+    display: none;
+  }
+  main .main_middle .item_size_color_off.hide {
+    display: none;
+  }
 }

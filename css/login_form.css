@@ -118,5 +118,105 @@ body {
 }
 
 @media (min-width: 600px) {
-  
+  /* ログインフォームのデザイン */
+  main {
+    margin-top: 150px;
+  }
+
+  main .login {
+    display: flex;
+    width: 100%;
+    height: 50px;
+  }
+
+  main .login #login {
+    font-size: 24px;
+    margin-left: 16px;
+    line-height: 50px;
+  }
+
+  main .login h3 {
+    margin: 0;
+    line-height: 50px;
+    font-size: 24px;
+  }
+
+  main .login_form {
+    width: 80%;
+    padding: 16px 32px;
+    margin: 0 auto;
+    background: rgba(192, 192, 192, .2);
+    border-radius: 5px;
+    text-align: left;
+  }
+
+  main .login_form .email #email {
+    width: 80%;
+    height: 30px;
+    margin: 8px 0;
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-family: var(--site-theme-font-family);
+  }
+
+  main .login_form .password #password {
+    width: 80%;
+    height: 30px;
+    margin: 8px 0;
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-family: var(--site-theme-font-family);
+  }
+
+  main .login_form .submit #login_submit {
+    width: 40%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    margin: 8px 0;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #4689FF;
+    color: #fff;
+    font-family: var(--site-theme-font-family);
+
+    transition: background .3s;
+  }
+
+  main .login_form .submit #submit:hover {
+    background: #5D99FF;
+  }
+
+  /* 新規登録・アカウント情報に関する案内 */
+  main .forget, .new {
+    text-align: right;
+  }
+
+  main .forget a, .new a {
+    margin: 8px 24px 0 0;
+    font-size: 12px;
+    text-decoration: none;
+    color: #4689FF;
+
+    transition: color .3s;
+  }
+
+  main .forget a:hover,
+  main .new a:hover {
+    color: #5D99FF;
+    border-bottom: 1px solid  #5D99FF;
+  }
+
+  /* エラーメッセージに関する処理 */
+  .err #err_msg, .login_err #login_err_msg {
+    margin: 0;
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 20px;
+  }
 }

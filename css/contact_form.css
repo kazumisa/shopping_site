@@ -133,6 +133,129 @@
 }
 
 @media (min-width: 600px) {
-  /* これより下のコード全てのPCサイトにて使い回し可能 */
+  /* お問い合わせ機能デザイン */
+  main .contact {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 16px;
+  }
+
+  main .contact .contact_support {
+    font-size: 24px;
+    margin-left: 16px;
+    line-height: 50px;
+  }
+
+  main .contact h3 {
+    margin: 0;
+    line-height: 50px;
+    font-size: 24px;
+  }
+
+  main .questions {
+    width: 100%;
+    height: 30px;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  main .questions p {
+    margin: 0 5px;
+    line-height: 30px;
+    text-align: right;
+  }
+
+  main .questions p a {
+    text-decoration: none;
+    color:  #4689FF;
+  }
+
+  main .questions p a:hover {
+    color: #5D99FF;
+  }
+
+  main .questions p a:hover {
+    border-bottom: 1px solid #5D99FF;
+  }
+
+  main form {
+    margin: 0 auto;
+    width: 100%;
+    background: rgba(192, 192, 192, .2);
+    padding: 16px 0;
+    border-radius: 5px;
+  }
+
+  main form .email,
+  main form .category {
+    width: 80%;
+    margin: 16px auto;
+  }
+
+  main form .email #email,
+  main form .category #category {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    outline: none;
+    font-family: var(--site-theme-font-family);
+  }
+
+  main form .category p {
+    font-size: 14px;
+  }
+
+  main form .content {
+    width: 80%;
+    margin: 16px auto;
+  }
+
+  main form .content #content {
+    width: 100%;
+    height: 300px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    outline: none;
+    font-family: var(--site-theme-font-family);
+  }
+
+  main form .submit {
+    width: 80%;
+    height: 30px;
+    margin: 16px auto;
+    border-radius: 5px;
+  }
+  
+  main form .submit #submit {
+    width: 100%;
+    height: 30px;
+    background: #4689FF;
+    outline: none;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: var(--site-theme-font-family);
+
+    transition: background .3s;
+  }
+
+  main form .submit #submit:hover {
+    background: #5D99FF;
+  }
+
+  .err {
+    text-align: center;
+  }
+
+  .err_msg {
+    color: #f00;
+    font-size: 12px;
+    margin-top: 5px;
+    font-family: var(--site-theme-font-family);
+  }
 
 }

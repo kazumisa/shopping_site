@@ -230,5 +230,218 @@ body {
 } 
 
 @media (min-width: 600px) {
-  
+  /* 新規登録フォームのデザイン */
+  main {
+    margin-top: 150px;
+  }
+
+  main .create {
+    display: flex;
+    width: 100%;
+    height: 50px;
+  }
+
+  main .create #person {
+    font-size: 24px;
+    margin-left: 16px;
+    line-height: 50px;
+  }
+
+  main .create h3 {
+    margin: 0;
+    line-height: 50px;
+    font-size: 24px;
+  }
+
+  main .create_form {
+    width: 80%;
+    padding: 16px 32px;
+    margin: 0 auto;
+    background: rgba(192, 192, 192, .2);
+    text-align: left;
+    border-radius: 5px;
+  }
+
+  main .create_form .info {
+    border-bottom: 1px solid #ccc;
+    height: 30px;
+  }
+  main .create_form .info h3 {
+    line-height: 30px;
+  }
+
+  main .create_form .birthday {
+    border-bottom: 1px solid #ccc;
+  }
+
+  main .create_form .birthday .title {
+    margin: 8px 0;
+  }
+
+  main .create_form .birthday .desc {
+    margin: 0;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .3);
+  }
+
+  main .create_form .birthday .select {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  main .create_form .birthday #year {
+    width: 96px;
+    height: 24px;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+  }
+
+  main .create_form .birthday #month, 
+  main .create_form .birthday #day {
+    width: 48px;
+    height: 24px;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+  }
+
+  main .create_form .email {
+    border-bottom: 1px solid #ccc;
+  }
+
+  main .create_form .email span {
+    color: red;
+    margin: 0 5px;
+  }
+
+  main .create_form .email .title{
+    margin: 8px 0;
+  }
+
+  main .create_form .email #email {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    outline: none;
+    border-radius: 5px;
+  }
+
+  main .create_form .email #checkbox {
+    margin: 0;
+    align-self: center;
+    margin-bottom: 8px;
+  }
+
+  main .create_form .email .desc {
+    display: flex;
+    color: rgba(0, 0, 0, .3);
+    font-size: 12px;
+  }
+
+  main .create_form .email .desc p {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  /* 電話番号に関する記述 */
+  main .create_form .tel {
+    border-bottom: 1px solid #ccc;
+  }
+  main .create_form .tel .title_desc{
+    font-size: 12px;
+    margin: 8px 0;
+  }
+
+  main .create_form .tel .title {
+    margin: 8px 0;
+  }
+
+  main .create_form .tel #tel {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    outline: none;
+    border-radius: 5px;
+  }
+
+  main .create_form .tel .desc {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .3);
+  }
+
+  /* パスワードに関する記述 */
+  main .create_form .password, 
+  main .create_form .password_conf {
+    border-bottom: 1px solid #ccc;
+  }
+
+  main .create_form .password .title, 
+  main .create_form .password_conf .title {
+    margin: 8px 0;
+  }
+
+  main .create_form .password span, 
+  main .create_form .password_conf span {
+    color: red;
+    margin: 0 4px;
+  }
+
+  main .create_form .password .desc {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  main .create_form .password #password, 
+  main .create_form .password_conf #password_conf {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  /* 送信ボタンに関する記述 */
+  main .create_form .submit {
+    width: 100%;
+    margin: 16px 0;
+    border-radius: 5px;
+  }
+
+  main .create_form #submit {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    background: #4689FF;
+    font-family: var(--site-theme-font-family);
+
+    transition: background .3s;
+  }
+
+  main .create_form #submit:hover {
+    background: #5D99FF;
+  }
+
+  /* エラーメッセージのデザイン */
+  .err {
+    margin-bottom: 8px;
+  }
+
+  .err #err_msg {
+    margin: 0;
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 20px;
+  }
 }

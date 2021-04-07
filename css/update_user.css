@@ -13,7 +13,7 @@ body {
 }
 
 @media (min-width: 0px) and (max-width: 599px) {
-  /* 新規登録フォームのデザイン */
+  /* 会員情報変更フォームのデザイン */
   main {
     margin-top: 150px;
   }
@@ -159,3 +159,153 @@ body {
     line-height: 20px;
   }
 } 
+@media (min-width: 600px)  {
+  /* 会員情報変更フォームのデザイン */
+  main {
+    margin-top: 150px;
+  }
+
+  .update {
+    display: flex;
+    width: 100%;
+    height: 50px;
+  }
+
+  .update #update {
+    font-size: 24px;
+    margin-left: 16px;
+    line-height: 50px;
+  }
+
+  .update h3 {
+    margin: 0;
+    line-height: 50px;
+    font-size: 24px;
+  }
+
+  .update_form {
+    width: 80%;
+    padding: 16px 32px;
+    margin: 0 auto;
+    background: rgba(192, 192, 192, .2);
+    text-align: left;
+    border-radius: 5px;
+  }
+
+  .update_form .info {
+    border-bottom: 1px solid #ccc;
+    height: 30px;
+  }
+  .update_form .info h3 {
+    line-height: 30px;
+  }
+
+  .update_form .email {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .update_form .email .title{
+    margin: 8px 0;
+  }
+
+  .update_form .email span {
+    color: red;
+    margin: 0 5px;
+  }
+
+  .update_form .email #email {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    outline: none;
+    border-radius: 5px;
+    font-family: var(--site-theme-font-family);
+  }
+
+  .update_form .email #checkbox {
+    margin: 0;
+    align-self: center;
+    margin-bottom: 8px;
+  }
+
+  .update_form .email .desc {
+    display: flex;
+    color: rgba(0, 0, 0, .3);
+    font-size: 12px;
+  }
+
+  .update_form .email .desc p {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  .update_form .tel {
+    border-bottom: 1px solid #ccc;
+  }
+  .update_form .tel .title_desc{
+    font-size: 12px;
+    margin: 8px 0;
+  }
+
+  .update_form .tel .title {
+    margin: 8px 0;
+  }
+
+  .update_form .tel #tel {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    outline: none;
+    border-radius: 5px;
+    font-family: var(--site-theme-font-family);
+  }
+
+  .update_form .tel .desc {
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .3);
+  }
+
+  .update_form .submit {
+    width: 100%;
+    margin: 16px 0;
+    border-radius: 5px;
+  }
+
+  .update_form #submit {
+    width: 100%;
+    height: 30px;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    background: #4689FF;
+    font-family: var(--site-theme-font-family);
+
+    transition: background .3s;
+  }
+
+  .update_form #submit:hover {
+    background: #5D99FF;
+  }
+
+  /* エラーメッセージのデザイン */
+  .err {
+    margin-bottom: 8px;
+  }
+
+  .err #err_msg {
+    margin: 0;
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 20px;
+  }
+} 
+
+
+

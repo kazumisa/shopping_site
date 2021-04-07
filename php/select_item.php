@@ -21,13 +21,15 @@ if(isset($_SESSION['login_user'])) {
 
 <main>
   <article class="main_top">
-    <div class="item_pic">
-      <img src=".<?php echo $itemData['file_path'];?>" alt="商品の写真">
-    </div>
-    <div class="item_content">
-      <p class="brabd_name"><?php echo $itemData['brand_name'] ;?></p>
-      <p class="item_name"><?php echo $itemData['item_name']  ;?></p>
-      <p class="item_price"><?php echo "¥".number_format($itemData['item_price']) ;?></p>
+    <div class="div_flex">
+      <div class="item_pic">
+        <img src=".<?php echo $itemData['file_path'];?>" alt="商品の写真">
+      </div>
+      <div class="item_content">
+        <p class="brabd_name"><?php echo $itemData['brand_name'] ;?></p>
+        <p class="item_name"><?php echo $itemData['item_name']  ;?></p>
+        <p class="item_price"><?php echo "¥".number_format($itemData['item_price']) ;?></p>
+      </div>
     </div>
 
     <!-- お気に入り登録・解除 -->
@@ -39,7 +41,6 @@ if(isset($_SESSION['login_user'])) {
     <div class="shopping_cart">
       <span class="shopping_cart_btn">買い物かごに入れる</span>
     </div> 
-
   </article>
   
   <article class="main_middle">
