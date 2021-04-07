@@ -12,8 +12,9 @@ Class User extends Dbc {
      * @return bool   $result
      */
     public function createUser($birthday, $email, $get_messages, $tel, $password) {
+      // パスワードをハッシュ化(暗号化)
+      $hash_pass = password_hash($password, PASSWORD_DEFAULT);
       try {
-        $hash_pass = password_hash($password, PASSWORD_DEFAULT);
         $pdo = $this->dbConnect();
         $sql = 'INSERT INTO 
                       create_user (birthday, email, get_messages, tel, password) 

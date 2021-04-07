@@ -64,8 +64,8 @@ Class Dbc
   }
 
   /**
-   * CSRF対策 : ワンタイムトークン
-   * @param void
+   * CSRF(クロスサイトリクエストフォージェリー)対策 : ワンタイムトークン
+   * @param  void
    * @return string $token
    */
   public static function setToken() {
@@ -74,8 +74,12 @@ Class Dbc
     return $token;
   }
 
-  // XSS対策 : エスケープ処理
-  public static function h($str) {
-    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+  /**
+   * XSS(クロスサイトスクリプティング)対策 : エスケープ処理
+   * @param  string $string
+   * @return string htmlspecialchars文字列
+   */
+  public static function h($s) {
+    return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
   }
 }
