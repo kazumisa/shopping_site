@@ -55,15 +55,16 @@ body {
   }
 
   main .container {
+    margin: 0 auto;
     width: 100%;
+    max-width: 500px;
     height: 100%;
     display: grid;
 
     grid-template-columns: repeat(2, 50%);
-    grid-auto-rows: 300px;
+    grid-auto-rows: 250px;
     
     justify-items: center;
-    align-items: center;
     align-content: center;
     justify-content: center;
   }
@@ -71,7 +72,9 @@ body {
   main .container .box {
     position: relative;
     width: 90%;
+    max-width: 200px;
     height: 90%;
+    max-height: 250px;
   }
 
   main .container .box a {
@@ -90,11 +93,9 @@ body {
     cursor: pointer;
   }
 
-
-
   main .container .box .img_favorite {
     position: absolute;
-    bottom: 80px;
+    top: 0;
     right: 0;
     cursor: pointer;
     padding: 4px;

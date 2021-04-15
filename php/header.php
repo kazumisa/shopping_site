@@ -73,7 +73,7 @@ $user_account_php = "localhost:8888/php/user_account.php";
             <li><a href="./purchase_history.php">購入履歴</a></li>
           <?php endif ;?>
           <?php if($nowPage !== $user_account_php) :?>
-            <li><a href="./my_page.php">アカウント情報</a></li>
+            <li><a href="./user_account.php">アカウント情報</a></li>
           <?php endif ;?>
             <li><a href="./logout.php" class="logout">ログアウト</a></li>
         </ul>

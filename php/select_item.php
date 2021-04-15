@@ -21,7 +21,6 @@ if(isset($_SESSION['login_user'])) {
 
 <main>
   <article class="main_top">
-    <div class="div_flex">
       <div class="item_pic">
         <img src=".<?php echo $itemData['file_path'];?>" alt="商品の写真">
       </div>
@@ -30,7 +29,6 @@ if(isset($_SESSION['login_user'])) {
         <p class="item_name"><?php echo $itemData['item_name']  ;?></p>
         <p class="item_price"><?php echo "¥".number_format($itemData['item_price']) ;?></p>
       </div>
-    </div>
 
     <!-- お気に入り登録・解除 -->
     <div class="favorite">

@@ -22,6 +22,10 @@ body {
     text-align: center;
   }
 
+  main .cart_count p {
+    margin-bottom: 30px;
+  }
+
   main .go_register {
     width: 100%;
     padding-bottom: 4px;

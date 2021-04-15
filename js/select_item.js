@@ -187,6 +187,7 @@
       const register_btn = document.querySelector('.register_btn');
       const item_id = register_btn.getAttribute('id');
 
+      console.log(item_name)
       if(json_cart_url === null) {
         // 買い物かごに追加した際の処理
         cart_url_obj[item_id] = img_src;
