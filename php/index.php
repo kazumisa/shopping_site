@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once(dirname(__FILE__).'/php/dbc_item.php');
+require_once(dirname(__FILE__).'/dbc_item.php');
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
