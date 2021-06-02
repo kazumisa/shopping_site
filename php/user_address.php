@@ -73,7 +73,7 @@ if(isset($_SESSION['tel'])) {
 
   <form action="./complete_user_address.php" method="POST" class="address_form">
     <!-- ユーザIDに関する記述 -->
-    <input type="hidden" name="userId" value="<?php echo $login_user['id'];?>">
+    <input type="hidden" name="userID" value="<?php echo $login_user['id'];?>">
 
     <!-- 名前に関する記述 -->
     <div class="name">

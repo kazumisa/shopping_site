@@ -2,7 +2,7 @@
 session_start();
 require_once(dirname(__FILE__).'/dbc_create_user.php');
 
-$user = new User('create_user');
+$user = new User('user_address');
 
 // ログインユーザの存在を確認
 if(!isset($_SESSION['login_user'])) {

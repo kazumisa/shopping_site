@@ -140,33 +140,33 @@ Class User extends Dbc {
       }
     }
 
-    /**
-     * 住所登録
-     * @param  int    $userId
-     * @param  string $name
-     * @param  int    $postalCode
-     * @param  string $address
-     * @param  string $tel
-     * @return bool   $result
-     */
-    public function registerAddress($userID, $name, $postalCode, $address, $tel) {
-      try {
-        $pdo  = $this->dbConnect();
-        $sql  = "INSERT INTO 
-                        $this->table_name (userID, name, postalCode, address, tel)
-                VALUES (:userID, :name, :postalCode, :address, :tel)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':userID', $userID, PDO::PARAM_INT);
-        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-        $stmt->bindValue(':postalCode', $postalCode, PDO::PARAM_INT);
-        $stmt->bindValue(':address', $address, PDO::PARAM_STR);
-        $stmt->bindValue(':tel', $tel, PDO::PARAM_STR);
-        $result = $stmt->execute();
-        return $result;
-      } catch (PDOException $e) {
-        exit($e->getMessage());
-      }
+  /**
+   * 住所登録
+   * @param  array $user_add
+   * @return bool  $result
+   */
+  public function registerAddress($user_add) {
+    $pdo  = $this->dbConnect();
+    $sql  = "INSERT INTO 
+                    $this->table_name (userID, name, postalCode, address, tel)
+            VALUES (:userID, :name, :postalCode, :address, :tel)";
+    
+    $pdo->beginTransaction();
+    try {
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue('userID', $user_add['userID'], PDO::PARAM_INT);
+      $stmt->bindValue('name', $user_add['name'], PDO::PARAM_STR);
+      $stmt->bindValue('postalCode', $user_add['postalCode'], PDO::PARAM_INT);
+      $stmt->bindValue('address', $user_add['address'], PDO::PARAM_STR);
+      $stmt->bindValue('tel', $user_add['tel'], PDO::PARAM_STR);
+      $pdo->commit();
+      $result = $stmt->execute();
+      return $result;
+    } catch (PDOException $e) {
+      $pdo->rollBack();
+      exit($e->getMessage());
     }
+  }
 
     /**
      * 住所登録の際の電話番号の被りをチェック
@@ -197,7 +197,7 @@ Class User extends Dbc {
         $pdo  = $this->dbConnect();
         $sql  = "SELECT * FROM $this->table_name WHERE userID = :userID";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindValue(':userID', $id, PDO::PARAM_INT);
+        $stmt->bindValue('userID', $id, PDO::PARAM_INT);
         $stmt->execute();
         $userAddress = $stmt->fetch(PDO::FETCH_ASSOC);
         return $userAddress;

@@ -6,7 +6,7 @@ require_once(dirname(__FILE__).'/dbc_create_user.php');
 $user = new User('user_address');
 
 // POSTで受け取った値を変数に格納
-$userID = filter_input(INPUT_POST, 'userId', FILTER_SANITIZE_SPECIAL_CHARS);
+$userID = filter_input(INPUT_POST, 'userID', FILTER_SANITIZE_SPECIAL_CHARS);
 $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 $postalCode = filter_input(INPUT_POST, 'postalCode', FILTER_SANITIZE_SPECIAL_CHARS);
 $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -60,6 +60,16 @@ if($result && $tel) {
   $err['tel'] = '既に同じ電話番号が存在します。';
 }
 
+$user_add = [
+  'userID'     => $userID,
+  'name'       => $name,
+  'postalCode' => $postalCode,
+  'address'    => $address,
+  'tel'        => $tel
+];
+
+// var_dump($user_add);
+// exit();
 
 // エラーが存在した時の処理
 if(count($err) > 0) {
@@ -68,7 +78,7 @@ if(count($err) > 0) {
   exit();
 } else {
   // 住所登録完了後セッションに保存
-  $user_address = $user->registerAddress($userID, $name, $postalCode, $address, $tel);
+  $user_address = $user->registerAddress($user_add);
   $_SESSION['user_address'] = $user_address;
   header('Location: ./index.php');
   exit();
