@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once('./dbc_create_user.php');
+require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User();
+$user = new User('create_user');
 
 $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
 // トークンバリデーション(XSS対策, 二重送信防止対策)

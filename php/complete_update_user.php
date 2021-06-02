@@ -1,10 +1,10 @@
 <?php 
 session_start();
-require_once('./dbc_create_user.php');
+require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 $login_user = $_SESSION['login_user'];
 
-$user = new User();
+$user = new User('create_user');
 
 $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);

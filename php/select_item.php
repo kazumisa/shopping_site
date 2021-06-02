@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once('./dbc_item.php');
+require_once(dirname(__FILE__).'/dbc_item.php');
 
 $id = $_GET['id'];
 
 // インスタンス化
-$item = new Item();
+$item = new Item('items');
 
 $itemData = $item->getItemDataById($id);
 

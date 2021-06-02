@@ -1,5 +1,5 @@
 <?php
-require_once('dbc.php');
+require_once(dirname(__FILE__).'/dbc.php');
 
 Class Item extends Dbc 
 {
@@ -20,7 +20,7 @@ Class Item extends Dbc
     try {
       $pdo = $this->dbConnect();
       $sql = "INSERT INTO 
-                    items (file_name, file_path, brand_name, item_name, item_detail, item_price, target, category, stock) 
+                    $this->table_name (file_name, file_path, brand_name, item_name, item_detail, item_price, target, category, stock) 
               VALUES (:file_name, :file_path, :brand_name, :item_name, :item_detail, :item_price, :target, :category, :stock)";
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue(':file_name', $file_name, PDO::PARAM_STR);

@@ -127,11 +127,11 @@ body {
     display: flex;
     width: 100%;
     height: 50px;
+    margin-bottom: 20px;
   }
 
   main .login #login {
-    font-size: 24px;
-    margin-left: 16px;
+    font-size: 30px;
     line-height: 50px;
   }
 
@@ -143,6 +143,7 @@ body {
 
   main .login_form {
     width: 80%;
+    max-width: 400px;
     padding: 16px 32px;
     margin: 0 auto;
     background: rgba(192, 192, 192, .2);
@@ -151,7 +152,7 @@ body {
   }
 
   main .login_form .email #email {
-    width: 80%;
+    width: 100%;
     height: 30px;
     margin: 8px 0;
     outline: none;
@@ -162,7 +163,7 @@ body {
   }
 
   main .login_form .password #password {
-    width: 80%;
+    width: 100%;
     height: 30px;
     margin: 8px 0;
     outline: none;
@@ -194,7 +195,9 @@ body {
 
   /* 新規登録・アカウント情報に関する案内 */
   main .forget, .new {
-    text-align: right;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
   }
 
   main .forget a, .new a {

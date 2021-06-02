@@ -1,5 +1,5 @@
 <?php 
-require_once('dbc.php');
+require_once(dirname(__FILE__).'/dbc.php');
 
 Class User extends Dbc {
   /**
@@ -16,9 +16,9 @@ Class User extends Dbc {
       $hash_pass = password_hash($password, PASSWORD_DEFAULT);
       try {
         $pdo = $this->dbConnect();
-        $sql = 'INSERT INTO 
-                      create_user (birthday, email, get_messages, tel, password) 
-                VALUES (:birthday, :email, :get_messages, :tel, :password)';
+        $sql = "INSERT INTO 
+                      $this->table_name (birthday, email, get_messages, tel, password) 
+                VALUES (:birthday, :email, :get_messages, :tel, :password)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue('birthday', $birthday, PDO::PARAM_STR);
         $stmt->bindValue('email', $email, PDO::PARAM_STR);
@@ -43,7 +43,7 @@ Class User extends Dbc {
     public function updateUser($id, $email, $get_messages, $tel) {
       try {
         $pdo = $this->dbConnect();
-        $sql = 'UPDATE create_user SET email = :email, get_messages = :get_messages, tel = :tel WHERE id = :id';
+        $sql = "UPDATE $this->table_name SET email = :email, get_messages = :get_messages, tel = :tel WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue('id', $id, PDO::PARAM_INT);
         $stmt->bindValue('email', $email, PDO::PARAM_STR);
@@ -64,7 +64,7 @@ Class User extends Dbc {
     public function getEmail() {
       try {
         $pdo = $this->dbConnect();
-        $sql = 'SELECT email FROM create_user';
+        $sql = "SELECT email FROM $this->table_name";
         $stmt = $pdo->query($sql);
         $email = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $email;
@@ -81,7 +81,7 @@ Class User extends Dbc {
     public function getTel() {
       try {
         $pdo = $this->dbConnect();
-        $sql = 'SELECT tel FROM create_user';
+        $sql = "SELECT tel FROM $this->table_name";
         $stmt = $pdo->query($sql);
         $tel = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $tel;
@@ -129,7 +129,7 @@ Class User extends Dbc {
     public function getUserById($email) {
       try {
         $pdo  = $this->dbConnect();
-        $sql  = "SELECT * FROM create_user WHERE email = :email";
+        $sql  = "SELECT * FROM $this->table_name WHERE email = :email";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
@@ -153,7 +153,7 @@ Class User extends Dbc {
       try {
         $pdo  = $this->dbConnect();
         $sql  = "INSERT INTO 
-                        user_address (userID, name, postalCode, address, tel)
+                        $this->table_name (userID, name, postalCode, address, tel)
                 VALUES (:userID, :name, :postalCode, :address, :tel)";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':userID', $userID, PDO::PARAM_INT);
@@ -176,7 +176,7 @@ Class User extends Dbc {
     public function checkUsersTel($tel) {
       try {
         $pdo  = $this->dbConnect();
-        $sql  = "SELECT * FROM user_address WHERE tel = :tel";
+        $sql  = "SELECT * FROM $this->table_name WHERE tel = :tel";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':tel', $tel, PDO::PARAM_STR);
         $stmt->execute();
@@ -195,7 +195,7 @@ Class User extends Dbc {
     public function getUserAddress($id) {
       try {
         $pdo  = $this->dbConnect();
-        $sql  = "SELECT * FROM user_address WHERE userID = :userID";
+        $sql  = "SELECT * FROM $this->table_name WHERE userID = :userID";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':userID', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -218,7 +218,7 @@ Class User extends Dbc {
     public function updateAddress($id, $name, $postalCode, $address, $tel) {
       try {
         $pdo = $this->dbConnect();
-        $sql = 'UPDATE user_address SET name = :name, postalCode = :postalCode, address = :address, tel = :tel WHERE userID = :userID';
+        $sql = "UPDATE $this->table_name SET name = :name, postalCode = :postalCode, address = :address, tel = :tel WHERE userID = :userID";
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue('userID', $id, PDO::PARAM_INT);
         $stmt->bindValue('name', $name, PDO::PARAM_STR);

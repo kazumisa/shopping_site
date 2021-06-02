@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once('./dbc_create_user.php');
+require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User();
+$user = new User('create_user');
 
 // POSTで受け取った各要素を変数に格納
 $year  = filter_input(INPUT_POST, 'year', FILTER_SANITIZE_SPECIAL_CHARS);

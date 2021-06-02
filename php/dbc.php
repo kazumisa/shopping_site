@@ -1,12 +1,20 @@
 <?php
-require_once('env.php');
-ini_set('display_errors', 1);
+require_once(dirname(__FILE__).'/env.php');
+// ini_set('display_errors', 1); 
 
 Class Dbc 
 {
   protected $table_name;
 
-  // データベースに接続
+  public function __construct($table_name) {
+    $this->table_name = $table_name;
+  }
+
+  /**
+   * データベースに接続
+   * 
+   * @return $pdo
+   */
   protected function dbConnect() {
     $host = DB_HOST;
     $name = DB_NAME;

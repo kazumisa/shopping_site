@@ -1,9 +1,9 @@
 <?php 
 session_start();
-require_once('./dbc_create_user.php');
+require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User();
+$user = new User('user_address');
 
 // POSTで受け取った値を変数に格納
 $userID = filter_input(INPUT_POST, 'userId', FILTER_SANITIZE_SPECIAL_CHARS);

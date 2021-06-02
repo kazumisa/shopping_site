@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once('./dbc.php');
-
-$token = new Dbc();
+require_once(dirname(__FILE__).'/dbc.php');
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {

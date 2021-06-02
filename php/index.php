@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../php/dbc_item.php');
+require_once(dirname(__FILE__).'/php/dbc_item.php');
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
@@ -8,7 +8,7 @@ if(isset($_SESSION['login_user'])) {
 }
 
 // インスタンス化
-$Item = new Item();
+$Item = new Item('items');
 
 // 新着アイテムを最新の商品から20件
 if(!isset($search_word)) {

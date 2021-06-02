@@ -1,8 +1,8 @@
 <?php 
 session_start();
-require_once('./dbc_create_user.php');
+require_once(dirname(__FILE__).'/dbc_create_user.php');
 
-$user = new User();
+$user = new User('create_user');
 
 // ログインユーザの存在を確認
 if(!isset($_SESSION['login_user'])) {

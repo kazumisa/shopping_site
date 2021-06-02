@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once('./dbc_create_user.php');
+require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User();
+$user = new User('create_user');
 
 // POSTで受け取った各要素を変数に格納
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -44,9 +44,11 @@ if(count($err) > 0) {
   if($login) {
     $id = $_SESSION['login_user']['id'];
     $userAddress = $user->getUserAddress($id);
-    if($userAddress) {
-      $_SESSION['user_address'] = $userAddress;
-    }
+    var_dump($userAddress);
+    exit();
+    // if($userAddress) {
+    //   $_SESSION['user_address'] = $userAddress;
+    // }
     header('Location: ./index.php');
   } else {
     header('Location: ./login_form.php');

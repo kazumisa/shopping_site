@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once('../php/dbc_item.php');
+require_once(dirname(__FILE__).'/php/dbc_item.php');
 
 // インスタンス化
-$Item = new Item();
+$Item = new Item('items');
 
 $items = $Item->getItemData();
 
