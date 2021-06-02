@@ -3,34 +3,34 @@ require_once(dirname(__FILE__).'/dbc.php');
 
 Class User extends Dbc {
   /**
-     * アカウント登録機能
-     * @param  string $birthday
-     * @param  string $email
-     * @param  string $get_messages
-     * @param  string $tel
-     * @param  string $password
-     * @return bool   $result
-     */
-    public function createUser($birthday, $email, $get_messages, $tel, $password) {
-      // パスワードをハッシュ化(暗号化)
-      $hash_pass = password_hash($password, PASSWORD_DEFAULT);
-      try {
-        $pdo = $this->dbConnect();
-        $sql = "INSERT INTO 
-                      $this->table_name (birthday, email, get_messages, tel, password) 
-                VALUES (:birthday, :email, :get_messages, :tel, :password)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindValue('birthday', $birthday, PDO::PARAM_STR);
-        $stmt->bindValue('email', $email, PDO::PARAM_STR);
-        $stmt->bindValue('get_messages', $get_messages, PDO::PARAM_STR);
-        $stmt->bindValue('tel', $tel, PDO::PARAM_STR);
-        $stmt->bindValue('password', $hash_pass, PDO::PARAM_STR);
-        $result = $stmt->execute();
-        return $result;
-      } catch (PDOException $e) {
-        exit($e->getMessage());
-      }
+   * アカウント登録機能
+   * @param  array  $user_info
+   * @return bool   $result
+   */
+  public function createUser($user_info) {
+    // パスワードをハッシュ化(暗号化)
+    $hash_pass = password_hash($user_info['password'], PASSWORD_DEFAULT);
+    $pdo = $this->dbConnect();
+    $sql = "INSERT INTO 
+                $this->table_name (birthday, email, get_messages, tel, password) 
+            VALUES (:birthday, :email, :get_messages, :tel, :password)";
+    
+    $pdo->beginTransaction();
+    try {
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue('birthday', $user_info['birthday'], PDO::PARAM_STR);
+      $stmt->bindValue('email', $user_info['email'], PDO::PARAM_STR);
+      $stmt->bindValue('get_messages', $user_info['get_messages'], PDO::PARAM_STR);
+      $stmt->bindValue('tel', $user_info['tel'], PDO::PARAM_STR);
+      $stmt->bindValue('password', $hash_pass, PDO::PARAM_STR);
+      $result = $stmt->execute();
+      $pdo->commit();
+      return $result;
+    } catch (PDOException $e) {
+      $pdo->rollBack();
+      exit($e->getMessage());
     }
+  }
 
     /**
      * アカウント情報編集

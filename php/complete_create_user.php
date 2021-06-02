@@ -88,6 +88,14 @@ if($password_conf !== $password && $password) {
   $err['password_conf'] = '確認用パスワードが異なります。';
 }
 
+$user_info = [
+  'birthday'     => $birthday,
+  'email'        => $email,
+  'get_messages' => $get_messages,
+  'tel'          => $tel,
+  'password'     => $password
+];
+  
 // エラーが存在した時の挙動
 if(count($err) > 0) {
   $_SESSION['err'] = $err;
@@ -95,7 +103,7 @@ if(count($err) > 0) {
   exit();
 } else {
   // 新規登録完了
-  $user->createUser($birthday, $email, $get_messages, $tel, $password);
+  $user->createUser($user_info);
   // 新規登録直後にログイン状態にする
   $userData = $user->getUserById($email);
   $_SESSION['login_user'] = $userData;
