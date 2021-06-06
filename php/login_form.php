@@ -1,8 +1,6 @@
 <?php
 session_start();
-require_once(dirname(__FILE__).'/dbc_create_user.php');
-
-$user = new User('create_user');
+require_once(dirname(__FILE__).'/dbc.php');
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
@@ -30,7 +28,7 @@ if(isset($_SESSION['login_err'])) {
 <?php define("title" ,"Milfin_login_form"); ?>
 <?php define("href1", "../css/common.css")?>
 <?php define("href2", "../css/login_form.css")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/header.php'); ?>
+<?php include(dirname(__FILE__).'/header.php'); ?>
 
 <main>
   <div class="login">
@@ -45,7 +43,7 @@ if(isset($_SESSION['login_err'])) {
     <div class="email">
       <input type="email" name="email" id="email" placeholder="メールアドレス" 
       <?php if(isset($email)):?>
-      value="<?php echo $email ;?>"
+      value="<?php echo Dbc::h($email) ;?>"
       <?php endif ;?>>
 
       <div class="err">
@@ -78,7 +76,7 @@ if(isset($_SESSION['login_err'])) {
 
     <!-- 送信に関する記述 -->
     <div class="submit">
-      <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
+      <input type="hidden" name="token" value="<?php echo Dbc::setToken() ;?>">
       <input type="submit" name="submit" id="login_submit" value="ログイン">
     </div>
   </form>
@@ -92,4 +90,4 @@ if(isset($_SESSION['login_err'])) {
 </main>
 
 <?php define("src1", "../js/common.js")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/footer.php'); ?>
+<?php include(dirname(__FILE__).'/footer.php'); ?>

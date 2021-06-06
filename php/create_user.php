@@ -1,9 +1,6 @@
 <?php
 session_start();
-require_once(dirname(__FILE__).'/dbc_create_user.php');
-
-// インスタンス化
-$user = new User('create_user');
+require_once(dirname(__FILE__).'/dbc.php');
 
 // ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
@@ -56,7 +53,7 @@ if(isset($_SESSION['tel'])) {
 <?php define("title" ,"Milfin_create_user"); ?>
 <?php define("href1", "../css/common.css")?>
 <?php define("href2", "../css/create_user.css")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/header.php'); ?>
+<?php include(dirname(__FILE__).'/header.php'); ?>
 <main>
   <div class="create">
     <span class="material-icons" id="person">person</span>
@@ -467,7 +464,7 @@ if(isset($_SESSION['tel'])) {
       <p class="title">メールアドレス <span>※必須</span></p>
       <input type="email" name="email" id="email" autocomplete="on"
       <?php if(isset($email)) :?>
-      value="<?php echo $email ;?>"
+      value="<?php echo Dbc::h($email) ;?>"
       <?php endif ;?>>
       <div class="err">
         <?php if(isset($err['email'])) :?>
@@ -486,7 +483,7 @@ if(isset($_SESSION['tel'])) {
       <p class="title_desc">ハイフンなし電話番号を記入して下さい</p>
       <input type="tel" name="tel" id="tel" autocomplete="on" 
       <?php if(isset($tel)) :?>
-        value="<?php echo $tel ;?>"
+        value="<?php echo Dbc::h($tel) ;?>"
       <?php endif ;?>>
       <div class="err">
         <?php if(isset($err['tel'])) :?>
@@ -522,10 +519,10 @@ if(isset($_SESSION['tel'])) {
     <!-- 送信に関する記述 -->
     <div class="submit">
       <input type="submit" name="submit" id="submit" value="登録完了">
-      <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
+      <input type="hidden" name="token" value="<?php echo User::setToken() ;?>">
     </div>
   </form>
 </main>
 
 <?php define("src1", "../js/common.js")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/footer.php'); ?>
+<?php include(dirname(__FILE__).'/footer.php'); ?>

@@ -15,7 +15,7 @@ if(isset($_SESSION['login_user'])) {
 <?php define("title" ,"Milfin_favorite"); ?>
 <?php define("href1", "../css/common.css")?>
 <?php define("href2", "../css/favorite.css")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/header.php'); ?>
+<?php include(dirname(__FILE__).'/header.php'); ?>
 
 <main>
   <div class="count_favorite">
@@ -28,4 +28,4 @@ if(isset($_SESSION['login_user'])) {
 
 <?php define("src1", "../js/common.js")?>
 <script src="../js/favorite.js"></script>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/footer.php'); ?>
+<?php include(dirname(__FILE__).'/footer.php'); ?>

@@ -42,16 +42,13 @@ if(count($err) > 0) {
   // ログイン処理
   $login = $user->login($email, $password);
   if($login) {
-    $id = $_SESSION['login_user']['id'];
-    $userAddress = $user->getUserAddress($id);
-    var_dump($userAddress);
-    exit();
-    // if($userAddress) {
-    //   $_SESSION['user_address'] = $userAddress;
-    // }
+    $userID = (int)$_SESSION['login_user']['id'];
+    $userAddress = $user->getUserAddress($userID);
+    if($userAddress) {
+      $_SESSION['user_address'] = $userAddress;
+    }
+    unset($_SESSION['email']);
     header('Location: ./index.php');
-  } else {
-    header('Location: ./login_form.php');
     exit();
-  }
+  } 
 } 

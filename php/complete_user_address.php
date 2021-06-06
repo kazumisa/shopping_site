@@ -60,7 +60,7 @@ if($result && $tel) {
   $err['tel'] = '既に同じ電話番号が存在します。';
 }
 
-$user_add = [
+$register_address = [
   'userID'     => $userID,
   'name'       => $name,
   'postalCode' => $postalCode,
@@ -68,7 +68,7 @@ $user_add = [
   'tel'        => $tel
 ];
 
-// var_dump($user_add);
+// var_dump($register_address);
 // exit();
 
 // エラーが存在した時の処理
@@ -78,7 +78,7 @@ if(count($err) > 0) {
   exit();
 } else {
   // 住所登録完了後セッションに保存
-  $user_address = $user->registerAddress($user_add);
+  $user_address = $user->registerAddress($register_address);
   $_SESSION['user_address'] = $user_address;
   header('Location: ./index.php');
   exit();

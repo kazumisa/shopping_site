@@ -61,7 +61,7 @@ if(isset($_SESSION['tel'])) {
 <?php define("title" ,"Milfin_user_address"); ?>
 <?php define("href1", "../css/common.css")?>
 <?php define("href2", "../css/user_address.css")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/header.php'); ?>
+<?php include(dirname(__FILE__).'/header.php'); ?>
 
 <main>
   <!-- 配送先登録をしていない場合 -->
@@ -80,7 +80,7 @@ if(isset($_SESSION['tel'])) {
       <p>お名前 <span>※必須</span></p>
       <input type="text" name="name" id="name" 
       <?php if(isset($name)):?>
-      value="<?php echo $name ;?>"
+      value="<?php echo Dbc::h($name) ;?>"
       <?php endif ;?>>
       <div class="err">
         <?php if(isset($err['name'])) :?>
@@ -94,7 +94,7 @@ if(isset($_SESSION['tel'])) {
       <p>郵便番号 <span>※必須</span></p>
       <input type="text" name="postalCode" id="postalCode" onKeyUp="AjaxZip3.zip2addr(this,'','address','address');"
       <?php if(isset($postalCode)) :?>
-        value="<?php echo $postalCode ;?>"
+        value="<?php echo Dbc::h($postalCode) ;?>"
       <?php endif ;?>>
       <div class="err">
         <?php if(isset($err['postalCode'])) :?>
@@ -108,7 +108,7 @@ if(isset($_SESSION['tel'])) {
       <p>住所 <span>※必須</span></p>
       <input type="text" name="address" id="address"
       <?php if(isset($address)) :?>
-        value="<?php echo $address ;?>"
+        value="<?php echo Dbc::h($address) ;?>"
       <?php endif ;?>>
       <div class="err">
         <?php if(isset($err['address'])) :?>
@@ -123,7 +123,7 @@ if(isset($_SESSION['tel'])) {
       <p class="desc">ご連絡の繋がる電話番号を記入して下さい。なんらかの不備があった場合ご連絡させて頂くことがございます。</p>
       <input type="tel" name="tel" id="tel"
       <?php if(isset($tel)) :?>
-        value="<?php echo $tel ;?>"
+        value="<?php echo Dbc::h($tel) ;?>"
       <?php endif ;?>>
       <div class="err">
         <?php if(isset($err['tel'])) :?>
@@ -134,7 +134,7 @@ if(isset($_SESSION['tel'])) {
     
     <!-- 登録ボタンに関する記述 -->
     <div class="submit">
-      <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
+      <input type="hidden" name="token" value="<?php echo Dbc::setToken() ;?>">
       <input type="submit" name="submit" id="submit" value="登録">
     </div>
   </form>
@@ -150,24 +150,24 @@ if(isset($_SESSION['tel'])) {
     <table border="1">
       <tr>
         <th>お名前</th>
-        <td><?php echo User::h($userAddress['name']) ;?></td>
+        <td><?php echo Dbc::h($userAddress['name']) ;?></td>
       </tr>
       <tr>
         <th>郵便番号</th>
-        <td><?php echo User::h(User::hyphenPostalCode($userAddress['postalCode'])) ;?></td>
+        <td><?php echo Dbc::h(Dbc::hyphenPostalCode($userAddress['postalCode'])) ;?></td>
       </tr>
       <tr>
         <th>住所</th>
-        <td><?php echo User::h($userAddress['address']) ;?></td>
+        <td><?php echo Dbc::h($userAddress['address']) ;?></td>
       </tr>
       <tr>
         <th>電話番号</th>
-        <td><?php echo User::h(User::hyphenTel($userAddress['tel'])) ;?></td>
+        <td><?php echo Dbc::h(Dbc::hyphenTel($userAddress['tel'])) ;?></td>
       </tr>
     </table>
 
     <form action="./complete_purchase.php" method="POST" class="purchase">
-      <input type="hidden" name="token" value="<?php echo User::h(User::setToken()) ;?>">
+      <input type="hidden" name="token" value="<?php echo Dbc::setToken() ;?>">
       <input type="submit" class="btn" value="注文確定">
     </form>
 
@@ -180,4 +180,4 @@ if(isset($_SESSION['tel'])) {
 </main>
 
 <?php define("src1", "../js/common.js")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/footer.php'); ?>
+<?php include(dirname(__FILE__).'/footer.php'); ?>

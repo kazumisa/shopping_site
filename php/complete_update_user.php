@@ -6,7 +6,7 @@ $login_user = $_SESSION['login_user'];
 
 $user = new User('create_user');
 
-$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
+$id = (int)filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
 $tel   = filter_input(INPUT_POST, 'tel', FILTER_SANITIZE_SPECIAL_CHARS);
 $get_messages = filter_input(INPUT_POST, 'checkbox', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -55,6 +55,17 @@ foreach($all_tels as $only_tel) {
   }
 }
 
+$update_user = [
+  'id'    => $id,
+  'email' => $email,
+  'get_messages' => $get_messages,
+  'tel'   => $tel,
+];
+
+// var_dump($_SESSION['login_user']);
+// var_dump($update_user);
+// exit();
+
 // エラーが存在した時の挙動
 if(count($err) > 0) {
   $_SESSION['err'] = $err;
@@ -62,10 +73,13 @@ if(count($err) > 0) {
   exit();
 } else {
   // 編集登録完了
-  $user->updateUser($id, $email, $get_messages, $tel);
+  $user->updateUser($update_user);
   // 編集登録直後に編集した情報でログイン状態にする
   unset($_SESSION['login_user']);
   $userData = $user->getUserById($email);
+  var_dump($userData);
+  var_dump($update_user);
+  exit();
   $_SESSION['login_user'] = $userData;
   header('Location: ./index.php');
 }

@@ -61,6 +61,14 @@ if($result && $tel) {
   }
 }
 
+$update_address = [
+  'id'         => $id,
+  'name'       => $name,
+  'postalCode' => $postalCode,
+  'address'    => $address,
+  'tel'        => $tel
+]
+
 
 // エラーが存在した時の処理
 if(count($err) > 0) {
