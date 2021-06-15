@@ -200,6 +200,43 @@ body {
     line-height: 30px;
   }
 
+  .update_form .birthday {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .update_form .birthday .title {
+    margin: 8px 0;
+  }
+
+  .update_form .birthday .desc {
+    margin: 0;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, .3);
+  }
+
+  .update_form .birthday .select {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .update_form .birthday #year {
+    width: 96px;
+    height: 24px;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+  }
+
+  .update_form .birthday #month, 
+  .update_form .birthday #day {
+    width: 48px;
+    height: 24px;
+    outline: none;
+    border: 0;
+    border-radius: 5px;
+  }
+
   .update_form .email {
     border-bottom: 1px solid #ccc;
   }

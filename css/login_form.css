@@ -189,7 +189,7 @@ body {
     transition: background .3s;
   }
 
-  main .login_form .submit #submit:hover {
+  main .login_form .submit #login_submit:hover {
     background: #5D99FF;
   }
 

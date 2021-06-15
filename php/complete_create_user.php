@@ -3,7 +3,7 @@ session_start();
 require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User('create_user');
+$user = new User('user');
 
 // POSTで受け取った各要素を変数に格納
 $year  = filter_input(INPUT_POST, 'year', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -38,42 +38,42 @@ $err = array();
 $check = checkdate($month, $day, $year);
 if(!$check && (!empty($year) || !empty($month) || !empty($day))) {
   $err['birthday'] = '正しい生年月日を登録して下さい。';
+} else if(empty($year) && empty($month) && empty($day)) {
+  $birthday = null;
 } else {
   $date = [$year, $month, $day];
-  $birthday = implode('-', $date);
+  $birthday = implode('/', $date);
 }
 
 // バリデーション(メールアドレス)
 if(empty($email)) {
-  $err['email'] = 'メールアドレスを登録して下さい。';
+  $err['email'] = 'メールアドレスを入力して下さい。';
 }
 $Regular_expressions_email = '/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/';
 if(!preg_match($Regular_expressions_email, $email) && $email) {
   $err['email'] = '正しいメールアドレスを入力して下さい。'; 
 }
-$all_emails = $user->getEmail();
-foreach($all_emails as $only_email) {
-  if($only_email['email'] === $email) {
-    $err['email'] = '既に同じメールアドレスが登録されています。';
-  }
+$all_emails = $user->checkUsersEmail($email);
+if($all_emails) {
+  $err['email'] = '既に同じメールアドレスが登録されています。';
 }
 
 // バリデーション(電話番号)
+if(empty($tel)) {
+  $tel = null;
+}
 $Regular_expressions_tel = '/^0[0-9]{9,10}\z/';
 if(!preg_match($Regular_expressions_tel, $tel) && $tel) {
   $err['tel'] = '正しい電話番号を登録して下さい。';
 }
-
-$all_tels = $user->getTel();
-foreach($all_tels as $only_tel) {
-  if($only_tel['tel'] === $tel) {
-    $err['tel'] = '既に同じ電話番号が登録されています。';
-  }
+$all_phoneNumbers = $user->checkUsersTel($tel);
+if($all_phoneNumbers) {
+  $err['tel'] = '既に同じ電話番号が登録されています。';
 }
 
 // バリデーション(パスワード)
 if(empty($password)) {
-  $err['password'] = 'パスワードを登録して下さい。';
+  $err['password'] = 'パスワードを入力して下さい。';
 }
 $Regular_expressions_password = '/\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,100}+\z/i';
 if(!preg_match($Regular_expressions_password, $password) && $password) {

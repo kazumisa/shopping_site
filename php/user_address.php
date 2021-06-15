@@ -3,7 +3,7 @@ session_start();
 require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User('create_user');
+$user = new User('user');
 
 $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
 // トークンバリデーション(XSS対策, 二重送信防止対策)
@@ -64,6 +64,7 @@ if(isset($_SESSION['tel'])) {
 <?php include(dirname(__FILE__).'/header.php'); ?>
 
 <main>
+<?php var_dump($login_user) ;?>
   <!-- 配送先登録をしていない場合 -->
   <?php if(!isset($userAddress)) :?>
   <div class="personal_data">
@@ -138,7 +139,6 @@ if(isset($_SESSION['tel'])) {
       <input type="submit" name="submit" id="submit" value="登録">
     </div>
   </form>
-
   <?php endif ;?>
 
   <!-- 既に配送先登録が済んでいる場合 -->

@@ -206,33 +206,33 @@ if(isset($_SESSION['tel'])) {
           <option value="2028">2028</option>
           <option value="2029">2029</option>
           <option value="2030">2030</option>
-        </select>年
+        </select> 年
         <select name="month" id="month">
           <option value="">-</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
+          <option value="01">1</option>
+          <option value="02">2</option>
+          <option value="03">3</option>
+          <option value="04">4</option>
+          <option value="05">5</option>
+          <option value="06">6</option>
+          <option value="07">7</option>
+          <option value="08">8</option>
+          <option value="09">9</option>
           <option value="10">10</option>
           <option value="11">11</option>
           <option value="12">12</option>
-        </select>月
+        </select> 月
         <select name="day" id="day">
           <option value="">-</option>
-          <option value="1">01</option>
-          <option value="2">02</option>
-          <option value="3">03</option>
-          <option value="4">04</option>
-          <option value="5">05</option>
-          <option value="6">06</option>
-          <option value="7">07</option>
-          <option value="8">08</option>
-          <option value="9">09</option>
+          <option value="01">1</option>
+          <option value="02">2</option>
+          <option value="03">3</option>
+          <option value="04">4</option>
+          <option value="05">5</option>
+          <option value="06">6</option>
+          <option value="07">7</option>
+          <option value="08">8</option>
+          <option value="09">9</option>
           <option value="10">10</option>
           <option value="11">11</option>
           <option value="12">12</option>
@@ -255,7 +255,7 @@ if(isset($_SESSION['tel'])) {
           <option value="29">29</option>
           <option value="30">30</option>
           <option value="31">31</option>
-        </select>日
+        </select> 日
       </div>
       <?php endif ;?>
       <?php if(isset($year) && isset($month) && isset($day)) :?>
@@ -399,15 +399,15 @@ if(isset($_SESSION['tel'])) {
         <select name="month" id="month">
         <?php if(isset($month)):?>
           <option value=""  <?php if($month === "") echo "selected";?>>-</option>
-          <option value="1" <?php if($month === "1") echo "selected";?>>1</option>
-          <option value="2" <?php if($month === "2") echo "selected";?>>2</option>
-          <option value="3" <?php if($month === "3") echo "selected";?>>3</option>
-          <option value="4" <?php if($month === "4") echo "selected";?>>4</option>
-          <option value="5" <?php if($month === "5") echo "selected";?>>5</option>
-          <option value="6" <?php if($month === "6") echo "selected";?>>6</option>
-          <option value="7" <?php if($month === "7") echo "selected";?>>7</option>
-          <option value="8" <?php if($month === "8") echo "selected";?>>8</option>
-          <option value="9" <?php if($month === "9") echo "selected";?>>9</option>
+          <option value="01" <?php if($month === "01") echo "selected";?>>1</option>
+          <option value="02" <?php if($month === "02") echo "selected";?>>2</option>
+          <option value="03" <?php if($month === "03") echo "selected";?>>3</option>
+          <option value="04" <?php if($month === "04") echo "selected";?>>4</option>
+          <option value="05" <?php if($month === "05") echo "selected";?>>5</option>
+          <option value="06" <?php if($month === "06") echo "selected";?>>6</option>
+          <option value="07" <?php if($month === "07") echo "selected";?>>7</option>
+          <option value="08" <?php if($month === "08") echo "selected";?>>8</option>
+          <option value="09" <?php if($month === "09") echo "selected";?>>9</option>
           <option value="10" <?php if($month === "10") echo "selected";?>>10</option>
           <option value="11" <?php if($month === "11") echo "selected";?>>11</option>
           <option value="12" <?php if($month === "12") echo "selected";?>>12</option>
@@ -416,15 +416,15 @@ if(isset($_SESSION['tel'])) {
         <select name="day" id="day">
         <?php if(isset($day)):?>
           <option value="" <?php if($day === "") echo "selected";?>>-</option>
-          <option value="1" <?php if($day === "1") echo "selected";?>>01</option>
-          <option value="2" <?php if($day === "2") echo "selected";?>>02</option>
-          <option value="3" <?php if($day === "3") echo "selected";?>>03</option>
-          <option value="4" <?php if($day === "4") echo "selected";?>>04</option>
-          <option value="5" <?php if($day === "5") echo "selected";?>>05</option>
-          <option value="6" <?php if($day === "6") echo "selected";?>>06</option>
-          <option value="7" <?php if($day === "7") echo "selected";?>>07</option>
-          <option value="8" <?php if($day === "8") echo "selected";?>>08</option>
-          <option value="9" <?php if($day === "9") echo "selected";?>>09</option>
+          <option value="01" <?php if($day === "01") echo "selected";?>>1</option>
+          <option value="02" <?php if($day === "02") echo "selected";?>>2</option>
+          <option value="03" <?php if($day === "03") echo "selected";?>>3</option>
+          <option value="04" <?php if($day === "04") echo "selected";?>>4</option>
+          <option value="05" <?php if($day === "05") echo "selected";?>>5</option>
+          <option value="06" <?php if($day === "06") echo "selected";?>>6</option>
+          <option value="07" <?php if($day === "07") echo "selected";?>>7</option>
+          <option value="08" <?php if($day === "08") echo "selected";?>>8</option>
+          <option value="09" <?php if($day === "09") echo "selected";?>>9</option>
           <option value="10" <?php if($day === "10") echo "selected";?>>10</option>
           <option value="11" <?php if($day === "11") echo "selected";?>>11</option>
           <option value="12" <?php if($day === "12") echo "selected";?>>12</option>
@@ -480,7 +480,7 @@ if(isset($_SESSION['tel'])) {
     <!-- 電話番号に関する記述 -->
     <div class="tel">
       <p class="title">電話番号</p>
-      <p class="title_desc">ハイフンなし電話番号を記入して下さい</p>
+      <p class="title_desc">電話番号を記入して下さい(ハイフン不要)</p>
       <input type="tel" name="tel" id="tel" autocomplete="on" 
       <?php if(isset($tel)) :?>
         value="<?php echo Dbc::h($tel) ;?>"
@@ -518,8 +518,8 @@ if(isset($_SESSION['tel'])) {
     
     <!-- 送信に関する記述 -->
     <div class="submit">
+      <input type="hidden" name="token" value="<?php echo Dbc::setToken() ;?>">
       <input type="submit" name="submit" id="submit" value="登録完了">
-      <input type="hidden" name="token" value="<?php echo User::setToken() ;?>">
     </div>
   </form>
 </main>

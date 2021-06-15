@@ -2,22 +2,14 @@
 session_start();
 require_once(dirname(__FILE__).'/dbc_create_user.php');
 
-$user = new User('user_address');
+$user = new User('user');
 
 // ログインユーザの存在を確認
 if(!isset($_SESSION['login_user'])) {
   header('Location: ./index.php');
 } else {
   $login_user = $_SESSION['login_user'];
-  $id = $login_user['id'];
-  $log_one = substr_replace($login_user['tel'], '-', 3, 0);
-  $log_second = substr_replace($log_one, '-', 8, 0);
-}
-
-if(isset($_SESSION['user_address'])) {
-  $userAddress = $user->getUserAddress($id);
-  $sub_one = substr_replace($userAddress['tel'], '-', 3, 0);
-  $sub_second = substr_replace($sub_one, '-', 8, 0);
+  $userID = $login_user['id'];
 }
 
 ?>
@@ -40,20 +32,23 @@ if(isset($_SESSION['user_address'])) {
     <table border="1">
       <tr>
         <th>メールアドレス</th>
-        <td><?php echo User::h($login_user['email']) ;?></td>
+        <td><?php echo Dbc::h($login_user['email']) ;?></td>
       </tr>
       <tr>
         <th>生年月日</th>
-        <td><?php echo User::h($login_user['birthday']) ;?></td>
+        <td><?php echo is_null($login_user['birthday']) ? '未登録' : Dbc::h($login_user['birthday']) ;?></td>
       </tr>
       <tr>
         <th>電話番号</th>
-        <td><?php echo User::h($log_second) ;?></td>
+        <td><?php echo is_null($login_user['tel']) ? '未登録' : Dbc::hyphenTel(Dbc::h($login_user['tel'])); ?></td>
+      </tr>
+      <tr>
+        <th>ショップ情報</th>
+        <td><?php echo $login_user['get_messages'] == 'on' ? '配信中' : '停止中' ;?></td>
       </tr>
     </table>
     <?php endif ?>
 
-    <?php if(isset($_SESSION['user_address'])) :?>
     <div class="user_address">
       <h3>配送先住所</h3>
       <div class="change"><a href="./update_address.php">変更</a></div>
@@ -61,22 +56,17 @@ if(isset($_SESSION['user_address'])) {
     <table border="1">
       <tr>
         <th>お名前</th>
-        <td><?php echo User::h($userAddress['name']) ;?></td>
+        <td><?php echo is_null($login_user['name']) ? '未登録' : Dbc::h($login_user['name']); ?></td>
       </tr>
       <tr>
         <th>郵便番号</th>
-        <td><?php echo substr_replace(User::h($userAddress['postalCode']), '-', 3, 0) ;?></td>
+        <td><?php echo is_null($login_user['postalCode']) ? '未登録' : Dbc::hyphenPostalCode(Dbc::h($login_user['postalCode'])); ?></td>
       </tr>
       <tr>
         <th>住所</th>
-        <td><?php echo User::h($userAddress['address']) ;?></td>
-      </tr>
-      <tr>
-        <th>電話番号</th>
-        <td><?php echo User::h($sub_second) ;?></td>
+        <td><?php echo is_null($login_user['address']) ? '未登録' : Dbc::h($login_user['address']); ?></td>
       </tr>
     </table>
-    <?php endif ?>
   </section>
 </main>
 

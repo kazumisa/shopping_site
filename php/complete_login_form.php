@@ -3,7 +3,7 @@ session_start();
 require_once(dirname(__FILE__).'/dbc_create_user.php');
 
 // インスタンス化
-$user = new User('create_user');
+$user = new User('user');
 
 // POSTで受け取った各要素を変数に格納
 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -48,6 +48,7 @@ if(count($err) > 0) {
       $_SESSION['user_address'] = $userAddress;
     }
     unset($_SESSION['email']);
+    $user->flashMessage("ログインしました");
     header('Location: ./index.php');
     exit();
   } 

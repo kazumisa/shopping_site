@@ -9,12 +9,11 @@ Class User extends Dbc {
    */
   public function createUser($create_user) {
     // パスワードをハッシュ化(暗号化)
-    $hash_pass = password_hash($create_user['password'], PASSWORD_DEFAULT);
+    $hash_password = password_hash($create_user['password'], PASSWORD_DEFAULT);
     $pdo = $this->dbConnect();
     $sql = "INSERT INTO 
                 $this->table_name (birthday, email, get_messages, tel, password) 
             VALUES (:birthday, :email, :get_messages, :tel, :password)";
-    
     $pdo->beginTransaction();
     try {
       $stmt = $pdo->prepare($sql);
@@ -22,7 +21,7 @@ Class User extends Dbc {
       $stmt->bindValue('email', $create_user['email'], PDO::PARAM_STR);
       $stmt->bindValue('get_messages', $create_user['get_messages'], PDO::PARAM_STR);
       $stmt->bindValue('tel', $create_user['tel'], PDO::PARAM_STR);
-      $stmt->bindValue('password', $hash_pass, PDO::PARAM_STR);
+      $stmt->bindValue('password', $hash_password, PDO::PARAM_STR);
       $result = $stmt->execute();
       $pdo->commit();
       return $result;
@@ -40,12 +39,13 @@ Class User extends Dbc {
   public function updateUser($update_user) {
     $pdo = $this->dbConnect();
     $sql = "UPDATE 
-                $this->table_name SET email = :email, get_messages = :get_messages, tel = :tel
+                $this->table_name SET birthday = :birthday, email = :email, get_messages = :get_messages, tel = :tel
             WHERE id = :id";
     $pdo->beginTransaction();
     try {
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue('id', $update_user['id'], PDO::PARAM_INT);
+      $stmt->bindValue('birthday', $update_user['birthday'], PDO::PARAM_STR);
       $stmt->bindValue('email', $update_user['email'], PDO::PARAM_STR);
       $stmt->bindValue('get_messages', $update_user['get_messages'], PDO::PARAM_STR);
       $stmt->bindValue('tel', $update_user['tel'], PDO::PARAM_STR);
@@ -54,40 +54,6 @@ Class User extends Dbc {
       return $result;
     } catch (PDOException $e) {
       $pdo->rollBack();
-      exit($e->getMessage());
-    }
-  }
-
-  /**
-   * データベースからメールアドレスを取得 
-   * @param  void
-   * @return string $email
-  */
-  public function getEmail() {
-    try {
-      $pdo = $this->dbConnect();
-      $sql = "SELECT email FROM $this->table_name";
-      $stmt = $pdo->query($sql);
-      $email = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      return $email;
-    } catch (PDOException $e) {
-      exit($e->getMessage());
-    }
-  }
-
-  /**
-   * データベースから電話番号を取得 
-   * @param  void
-   * @return string $tel
-  */
-  public function getTel() {
-    try {
-      $pdo = $this->dbConnect();
-      $sql = "SELECT tel FROM $this->table_name";
-      $stmt = $pdo->query($sql);
-      $tel = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      return $tel;
-    } catch (PDOException $e) {
       exit($e->getMessage());
     }
   }
@@ -123,7 +89,7 @@ Class User extends Dbc {
   }
 
   /**
-   * メールアドレスを元にユーザIDを取得
+   * メールアドレスを元にユーザデータを取得
    * @param  string $email
    * @return array  $userData
    */
@@ -170,16 +136,36 @@ Class User extends Dbc {
   }
 
   /**
-   * 住所登録の際の電話番号の被りをチェック
-   * @param  string $tel
+   * メールアドレスの被りをチェック
+   * @param  string $email
+   * @return bool   $result
+   */
+  public function checkUsersEmail($email) {
+    try {
+      $pdo  = $this->dbConnect();
+      $sql  = "SELECT email FROM $this->table_name WHERE email = :email";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue('email', $email, PDO::PARAM_STR);
+      $stmt->execute();
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+      return $result;
+    } catch (PDOException $e) {
+      exit($e->getMessage());
+    }
+  }
+
+
+  /**
+   * 電話番号の被りをチェック
+   * @param  String $tel
    * @return bool  $result
    */
   public function checkUsersTel($tel) {
+    $pdo  = $this->dbConnect();
+    $sql  = "SELECT tel FROM $this->table_name WHERE tel = :tel";
     try {
-      $pdo  = $this->dbConnect();
-      $sql  = "SELECT * FROM $this->table_name WHERE tel = :tel";
       $stmt = $pdo->prepare($sql);
-      $stmt->bindValue(':tel', $tel, PDO::PARAM_STR);
+      $stmt->bindValue('tel', $tel, PDO::PARAM_STR);
       $stmt->execute();
       $result = $stmt->fetch(PDO::FETCH_ASSOC);
       return $result;
@@ -189,14 +175,33 @@ Class User extends Dbc {
   }
 
   /**
+   * userIDを元にuserDataをデータベースから取得
+   * @param  string $userID
+   * @return bool   $userData
+   */
+  public function getUserData($userID) {
+    $pdo  = $this->dbConnect();
+    $sql  = "SELECT * FROM $this->table_name WHERE id = :userID";
+    try {
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue('userID', $userID, PDO::PARAM_INT);
+      $stmt->execute();
+      $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+      return $userData;
+    } catch (PDOException $e) {
+      exit($e->getMessage());
+    }
+  }
+
+  /**
    * userIDを元に住所をデータベースから取得
    * @param  string $userID
-   * @return bool   $result
+   * @return bool   $userAddress
    */
   public function getUserAddress($userID) {
+    $pdo  = $this->dbConnect();
+    $sql  = "SELECT name, postalCode, address FROM $this->table_name WHERE id = :userID";
     try {
-      $pdo  = $this->dbConnect();
-      $sql  = "SELECT * FROM user_address WHERE userID = :userID";
       $stmt = $pdo->prepare($sql);
       $stmt->bindValue('userID', $userID, PDO::PARAM_INT);
       $stmt->execute();
@@ -215,17 +220,16 @@ Class User extends Dbc {
   public function updateAddress($update_address) {
     $pdo = $this->dbConnect();
     $sql = "UPDATE 
-                $this->table_name SET name = :name, postalCode = :postalCode, address = :address, tel = :tel 
-            WHERE userID = :userID";
+                $this->table_name SET name = :name, postalCode = :postalCode, address = :address 
+            WHERE id = :id";
     
     $pdo->beginTransaction();
     try {
       $stmt = $pdo->prepare($sql);
-      $stmt->bindValue('userID', $update_address['id'], PDO::PARAM_INT);
+      $stmt->bindValue('id', $update_address['id'], PDO::PARAM_INT);
       $stmt->bindValue('name', $update_address['name'], PDO::PARAM_STR);
       $stmt->bindValue('postalCode', $update_address['postalCode'], PDO::PARAM_STR);
       $stmt->bindValue('address', $update_address['address'], PDO::PARAM_STR);
-      $stmt->bindValue('tel', $update_address['tel'], PDO::PARAM_STR);
       $result = $stmt->execute();
       $pdo->commit();
       return $result;
@@ -233,6 +237,15 @@ Class User extends Dbc {
       $pdo->rollBack();
       exit($e->getMessage());
     }
+  }
+
+  /**
+   * フラッシュメッセージ機能
+   * @param  string $message
+   * @return void
+   */
+  public function flashMessage($message) {
+    $_SESSION['flash_message'] = $message;
   }
 
   /**

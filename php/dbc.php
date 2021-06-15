@@ -36,15 +36,15 @@ Class Dbc
 
   /**
    * 文字数制限
-   * @param string
-   * @return string $limitedString||$string
+   * @param  string
+   * @return string $limitedCharacter||$string
    */
-  public static function limited($string) {
+  public static function characterLimit($string) {
     $count = mb_strlen($string);
     if($count > 20) {
-      $limited = mb_substr($string, 0, 20);
-      $limitedString = $limited."...";
-      return $limitedString;
+      $limit = mb_substr($string, 0, 20);
+      $limitedCharacter = $limit."...";
+      return $limitedCharacter;
     } else {
       return $string;
     }
@@ -62,7 +62,7 @@ Class Dbc
   }
 
   /**
-   * 電話番号ハイフン
+   * 郵便番号ハイフン
    * @param  $postalCode
    * @return $result
    */

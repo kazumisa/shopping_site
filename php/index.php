@@ -2,23 +2,22 @@
 session_start();
 require_once(dirname(__FILE__).'/dbc_item.php');
 
-// ログインユーザの存在を確認
 if(isset($_SESSION['login_user'])) {
   $login_user = $_SESSION['login_user'];
 }
 
 // インスタンス化
-$Item = new Item('items');
+$item = new Item('items');
 
 // 新着アイテムを最新の商品から20件
 if(!isset($search_word)) {
-  $items = $Item->getItemData();
+  $items = $item->getItemData();
 }
 
 // 商品検索機能
 $search_word = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL_CHARS);
 if(isset($search_word)) {
-  $search_items = $Item->searchItem($search_word);
+  $search_items = $item->searchItem($search_word);
 }
 
 ?>
@@ -26,7 +25,7 @@ if(isset($search_word)) {
 <link href="../css/swiper-bundle.min.css" rel="stylesheet">
 <?php define("href1", "../css/common.css")?>
 <?php define("href2", "../css/index.css")?>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/header.php'); ?>
+<?php include(dirname(__FILE__).'/header.php'); ?>
 
 <!-- スライダー -->
 <div class="swiper-container">
@@ -68,9 +67,13 @@ if(isset($search_word)) {
   </div>
 </section>
 
-
 <!-- 商品画像掲載処理 -->
 <main>
+  <?php if(isset($_SESSION['flash_message'])) 
+    echo $_SESSION['flash_message'];
+    unset($_SESSION['flash_message']);
+  ?>
+
   <h3 class="title">新着アイテム</h3>
     <?php if(!$search_word) :?> 
       <div class="container">
@@ -81,9 +84,9 @@ if(isset($search_word)) {
             </a>
             <span class="material-icons img_favorite" id="<?php echo $item['id'] ;?>">favorite</span>
             <div class="detail">
-              <p class="brand_name"><?php echo Item::h(Item::limited($item['brand_name'])) ;?></p>
-              <p class="item_name"><?php echo Item::h(Item::limited($item['item_name'])) ;?></p>
-              <p class="item_price"><?php echo Item::h("¥".number_format($item['item_price'])) ;?></p>
+              <p class="brand_name"><?php echo Dbc::h(Dbc::characterLimit($item['brand_name'])) ;?></p>
+              <p class="item_name"><?php echo Dbc::h(Dbc::characterLimit($item['item_name'])) ;?></p>
+              <p class="item_price"><?php echo "¥".Dbc::h(number_format($item['item_price'])) ;?></p>
             </div>
           </div>
         <?php endforeach ;?>
@@ -100,9 +103,9 @@ if(isset($search_word)) {
               </a>
               <span class="material-icons img_favorite" id="<?php echo $search_item['id'] ;?>">favorite</span>
               <div class="detail">
-                <p class="brand_name"><?php echo Item::h(Item::limited($search_item['brand_name'])) ;?></p>
-                <p class="item_name"><?php echo Item::h(Item::limited($search_item['item_name'])) ;?></p>
-                <p class="item_price"><?php echo Item::h("¥".number_format($search_item['item_price'])) ;?></p>
+                <p class="brand_name"><?php echo Dbc::h(Dbc::characterLimit($search_item['brand_name'])) ;?></p>
+                <p class="item_name"><?php echo Dbc::h(Dbc::characterLimit($search_item['item_name'])) ;?></p>
+                <p class="item_price"><?php echo "¥".Dbc::h(number_format($search_item['item_price'])) ;?></p>
               </div>
             </div>
           <?php endforeach ;?>
@@ -114,4 +117,4 @@ if(isset($search_word)) {
 <?php define("src1", "../js/common.js"); ?>
 <script src="../js/swiper_bundle.min.js" defer></script>
 <script src="../js/index.js" defer></script>
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/php/footer.php'); ?>
+<?php include(dirname(__FILE__).'/footer.php'); ?>

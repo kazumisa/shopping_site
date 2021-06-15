@@ -7,15 +7,18 @@ if(isset($_SESSION['login_user'])) {
 }
 
 // インスタンス化
-$user = new User('user_address');
+$user = new User('user');
 
 // POSTで受け取った値を変数に格納
 $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_SPECIAL_CHARS);
 $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-$postalCode = filter_input(INPUT_POST, 'postalCode', FILTER_SANITIZE_SPECIAL_CHARS);
+$postalCode = filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_SPECIAL_CHARS);
 $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_SPECIAL_CHARS);
-$tel = filter_input(INPUT_POST, 'tel', FILTER_SANITIZE_SPECIAL_CHARS);
 $token = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+
+$_SESSION['name'] = $name;
+$_SESSION['postalCode'] = $postalCode;
+$_SESSION['address'] = $address;
 
 
 // トークンバリデーション(XSS対策, 二重送信防止対策)
@@ -30,34 +33,29 @@ unset($_SESSION['token']);
 $err = array(); // エラーメッセージを格納する配列
 // バリデーション(お名前)
 if(empty($name)) {
-  $err['name'] = 'お名前を入力して下さい。';
+  $name = null;
+} else {
+  if(mb_strlen($name) >= 150) {
+    $err['name'] = '150文字以内で入力して下さい。';
+  }
 }
-if(mb_strlen($name) > 150) {
-  $err['name'] = '150文字以内で入力して下さい。';
-}
+
 // バリデーション(郵便番号)
 if(empty($postalCode)) {
-  $err['postalCode'] = '郵便番号を入力して下さい。';
+  $postalCode = null;
+} else {
+  $regular_expression_postalCode = '/^\d{7}$/';
+  if(preg_match($regular_expression_postalCode, $postalCode) === 0) {
+    $err['postalCode'] = '正しい郵便番号を入力して下さい。';
+  }
 }
+
 // バリデーション(住所)
 if(empty($address)) {
-  $err['address'] = '住所を入力して下さい。';
-}
-if(mb_strlen($address) > 50) {
-  $err['address'] = '50文字以内で入力して下さい。';
-}
-// バリデーション(電話番号)
-if(empty($tel)) {
-  $err['tel'] = '電話番号を入力して下さい。';
-}
-$Regular_expressions_tel = '/^0[0-9]{9,10}\z/';
-if(!preg_match($Regular_expressions_tel, $tel) && $tel) {
-  $err['tel'] = '正しい電話番号を入力して下さい。';
-}
-$result = $user->checkUsersTel($tel);
-if($result && $tel) {
-  if($login_user['tel'] !== $result['tel']) {
-    $err['tel'] = '既に同じ電話番号が存在します。';
+  $address = null;
+} else {
+  if(mb_strlen($address) >= 50) {
+    $err['address'] = '50文字以内で入力して下さい。';
   }
 }
 
@@ -66,9 +64,7 @@ $update_address = [
   'name'       => $name,
   'postalCode' => $postalCode,
   'address'    => $address,
-  'tel'        => $tel
-]
-
+];
 
 // エラーが存在した時の処理
 if(count($err) > 0) {
@@ -76,10 +72,15 @@ if(count($err) > 0) {
   header('Location: ./update_address.php');
   exit();
 } else {
-  // 住所登録完了後セッションに保存
-  $user_address = $user->updateAddress($id, $name, $postalCode, $address, $tel);
-  unset($_SESSION['user_address']);
-  $_SESSION['user_address'] = $user_address;
+  // 編集登録完了
+  $user->updateAddress($update_address);
+  // 編集登録直後に編集した情報でログイン状態にする
+  unset($_SESSION['login_user']);
+  unset($_SESSION['name']);
+  unset($_SESSION['postalCode']);
+  unset($_SESSION['address']);
+  $userData = $user->getUserData($id);
+  $_SESSION['login_user'] = $userData;
   header('Location: ./index.php');
   exit();
 }
